@@ -1,0 +1,11 @@
+name: gfx803
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - numpy=1.26.4
+  - pip
+  - pip:
+      - typing_extensions
+      - pyyaml
+      - requests

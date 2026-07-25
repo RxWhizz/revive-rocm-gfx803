@@ -1,0 +1,1277 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 4.93kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/rocm/dev-ubuntu-22.04:5.7.1
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [base 1/5] FROM docker.io/rocm/dev-ubuntu-22.04:5.7.1@sha256:27d11fd428af061d585a3111e366e000d22e60b160abfd409e770a385452cbc3
+#4 resolve docker.io/rocm/dev-ubuntu-22.04:5.7.1@sha256:27d11fd428af061d585a3111e366e000d22e60b160abfd409e770a385452cbc3 0.0s done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 80B done
+#5 DONE 0.0s
+
+#6 [base 3/5] RUN curl -Ls "https://micro.mamba.pm/api/micromamba/linux-64/1.5.8"       | tar -xvj -C /usr/local bin/micromamba
+#6 CACHED
+
+#7 [base 4/5] COPY environment/environment.yml /tmp/environment.yml
+#7 CACHED
+
+#8 [base 2/5] RUN apt-get update && apt-get install -y --no-install-recommends         git wget curl ca-certificates build-essential cmake ninja-build ccache         python3 python3-dev python3-pip python3-venv pkg-config         libnuma-dev gfortran libomp-dev     && rm -rf /var/lib/apt/lists/*
+#8 CACHED
+
+#9 [base 5/5] RUN micromamba create -y -p /opt/conda -f /tmp/environment.yml && micromamba clean -ay
+#9 CACHED
+
+#10 [rocblas 1/4] WORKDIR /build
+#10 CACHED
+
+#11 [rocblas 2/4] RUN git clone --depth 1 -b release/rocm-rel-5.7 https://github.com/ROCm/rocBLAS.git
+#11 0.221 Cloning into 'rocBLAS'...
+#11 18.77 Updating files:  38% (926/2399)Updating files:  39% (936/2399)Updating files:  40% (960/2399)Updating files:  41% (984/2399)Updating files:  41% (1000/2399)Updating files:  42% (1008/2399)Updating files:  43% (1032/2399)Updating files:  44% (1056/2399)Updating files:  45% (1080/2399)Updating files:  46% (1104/2399)Updating files:  47% (1128/2399)Updating files:  48% (1152/2399)Updating files:  49% (1176/2399)Updating files:  50% (1200/2399)Updating files:  51% (1224/2399)Updating files:  52% (1248/2399)Updating files:  53% (1272/2399)Updating files:  54% (1296/2399)Updating files:  55% (1320/2399)Updating files:  56% (1344/2399)Updating files:  57% (1368/2399)Updating files:  58% (1392/2399)Updating files:  58% (1413/2399)Updating files:  59% (1416/2399)Updating files:  60% (1440/2399)Updating files:  61% (1464/2399)Updating files:  62% (1488/2399)Updating files:  63% (1512/2399)Updating files:  64% (1536/2399)Updating files:  65% (1560/2399)Updating files:  66% (1584/2399)Updating files:  67% (1608/2399)Updating files:  68% (1632/2399)Updating files:  69% (1656/2399)Updating files:  70% (1680/2399)Updating files:  71% (1704/2399)Updating files:  72% (1728/2399)Updating files:  73% (1752/2399)Updating files:  74% (1776/2399)Updating files:  75% (1800/2399)Updating files:  76% (1824/2399)Updating files:  77% (1848/2399)Updating files:  78% (1872/2399)Updating files:  78% (1875/2399)Updating files:  79% (1896/2399)Updating files:  80% (1920/2399)Updating files:  81% (1944/2399)Updating files:  82% (1968/2399)Updating files:  83% (1992/2399)Updating files:  84% (2016/2399)Updating files:  85% (2040/2399)Updating files:  86% (2064/2399)Updating files:  87% (2088/2399)Updating files:  88% (2112/2399)Updating files:  89% (2136/2399)Updating files:  90% (2160/2399)Updating files:  91% (2184/2399)Updating files:  92% (2208/2399)Updating files:  93% (2232/2399)Updating files:  94% (2256/2399)Updating files:  95% (2280/2399)Updating files:  96% (2304/2399)Updating files:  97% (2328/2399)Updating files:  98% (2352/2399)Updating files:  99% (2376/2399)Updating files: 100% (2399/2399)Updating files: 100% (2399/2399), done.
+#11 DONE 24.7s
+
+#12 [rocblas 3/4] RUN --mount=type=cache,target=/ccache     apt-get update &&     cd rocBLAS && ./install.sh -d -a gfx803 -i
+#12 0.516 Get:1 http://archive.ubuntu.com/ubuntu jammy InRelease [270 kB]
+#12 0.647 Get:2 http://security.ubuntu.com/ubuntu jammy-security InRelease [129 kB]
+#12 0.696 Get:3 http://archive.ubuntu.com/ubuntu jammy-updates InRelease [128 kB]
+#12 0.708 Get:4 https://repo.radeon.com/amdgpu/5.7.1/ubuntu jammy InRelease [5471 B]
+#12 0.763 Get:5 https://repo.radeon.com/rocm/apt/5.7.1 jammy InRelease [2617 B]
+#12 0.804 Get:6 http://archive.ubuntu.com/ubuntu jammy-backports InRelease [127 kB]
+#12 0.851 Get:7 http://archive.ubuntu.com/ubuntu jammy/universe amd64 Packages [17.5 MB]
+#12 0.875 Get:8 http://security.ubuntu.com/ubuntu jammy-security/restricted amd64 Packages [7258 kB]
+#12 1.207 Get:9 https://repo.radeon.com/amdgpu/5.7.1/ubuntu jammy/main amd64 Packages [13.5 kB]
+#12 1.311 Get:10 https://repo.radeon.com/rocm/apt/5.7.1 jammy/main amd64 Packages [30.8 kB]
+#12 2.898 Get:11 http://security.ubuntu.com/ubuntu jammy-security/main amd64 Packages [4046 kB]
+#12 3.057 Get:12 http://archive.ubuntu.com/ubuntu jammy/restricted amd64 Packages [164 kB]
+#12 3.074 Get:13 http://archive.ubuntu.com/ubuntu jammy/multiverse amd64 Packages [266 kB]
+#12 3.107 Get:14 http://archive.ubuntu.com/ubuntu jammy/main amd64 Packages [1792 kB]
+#12 3.340 Get:15 http://archive.ubuntu.com/ubuntu jammy-updates/restricted amd64 Packages [7526 kB]
+#12 3.983 Get:16 http://security.ubuntu.com/ubuntu jammy-security/universe amd64 Packages [1307 kB]
+#12 4.309 Get:17 http://archive.ubuntu.com/ubuntu jammy-updates/multiverse amd64 Packages [86.4 kB]
+#12 4.313 Get:18 http://security.ubuntu.com/ubuntu jammy-security/multiverse amd64 Packages [77.8 kB]
+#12 4.320 Get:19 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 Packages [4379 kB]
+#12 4.722 Get:20 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 Packages [1612 kB]
+#12 4.859 Get:21 http://archive.ubuntu.com/ubuntu jammy-backports/universe amd64 Packages [35.6 kB]
+#12 4.862 Get:22 http://archive.ubuntu.com/ubuntu jammy-backports/main amd64 Packages [82.8 kB]
+#12 6.069 Fetched 46.8 MB in 6s (8220 kB/s)
+#12 6.069 Reading package lists...
+#12 7.728 W: https://repo.radeon.com/amdgpu/5.7.1/ubuntu/dists/jammy/InRelease: Key is stored in legacy trusted.gpg keyring (/etc/apt/trusted.gpg), see the DEPRECATION section in apt-key(8) for details.
+#12 7.728 W: https://repo.radeon.com/rocm/apt/5.7.1/dists/jammy/InRelease: Key is stored in legacy trusted.gpg keyring (/etc/apt/trusted.gpg), see the DEPRECATION section in apt-key(8) for details.
+#12 7.748 + printf '\033[32mCreating project build directory in: \033[33m/build/rocBLAS/build\033[0m\n'
+#12 7.748 [32mCreating project build directory in: [33m/build/rocBLAS/build[0m
+#12 7.748 + cmake_executable=cmake
+#12 7.748 + cxx=hipcc
+#12 7.748 + cc=hipcc
+#12 7.748 + fc=gfortran
+#12 7.748 + [[ true == true ]]
+#12 7.749 ++ cmake --version
+#12 7.749 ++ grep -oP '(?<=version )[^ ]*'
+#12 7.762 + CMAKE_VERSION=3.22.1
+#12 7.762 + install_packages
+#12 7.762 + '[' -z foo ']'
+#12 7.762 + '[' -z foo ']'
+#12 7.762 + library_dependencies_ubuntu=('make' 'python3' 'python3-yaml' 'python3-venv' 'python3-joblib' 'python3*-pip')
+#12 7.762 + local library_dependencies_ubuntu
+#12 7.762 + library_dependencies_centos_rhel=('epel-release' 'make' 'rpm-build' 'python34' 'python3*-PyYAML' 'python3-virtualenv' 'python3-joblib' 'gcc-c++')
+#12 7.762 + local library_dependencies_centos_rhel
+#12 7.762 + library_dependencies_centos_8=('epel-release' 'make' 'rpm-build' 'python3' 'python3*-PyYAML' 'python3-virtualenv' 'python3-joblib' 'gcc-c++')
+#12 7.762 + local library_dependencies_centos_8
+#12 7.762 + library_dependencies_rhel_8=('epel-release' 'make' 'rpm-build' 'python36' 'python3*-PyYAML' 'python3-virtualenv' 'python3-joblib' 'gcc-c++')
+#12 7.762 + local library_dependencies_rhel_8
+#12 7.763 + library_dependencies_rhel_9=('epel-release' 'openssl-devel' 'make' 'rpm-build' 'python39' 'python3*-PyYAML' 'python3-virtualenv' 'python3-joblib' 'gcc-c++')
+#12 7.763 + local library_dependencies_rhel_9
+#12 7.763 + library_dependencies_fedora=('make' 'rpm-build' 'python34' 'python3*-PyYAML' 'python3-virtualenv' 'python3-joblib' 'gcc-c++' 'libcxx-devel')
+#12 7.763 + local library_dependencies_fedora
+#12 7.763 + library_dependencies_sles=('make' 'python3-PyYAML' 'python3-virtualenv' 'python3-joblib' 'gcc-c++' 'libcxxtools9' 'rpm-build')
+#12 7.763 + local library_dependencies_sles
+#12 7.763 + [[ true == true ]]
+#12 7.763 + library_dependencies_ubuntu+=("libmsgpack-dev")
+#12 7.763 + library_dependencies_fedora+=("msgpack-devel")
+#12 7.763 + [[ ubuntu == \u\b\u\n\t\u ]]
+#12 7.763 + [[ 22.04 == \1\6\.\0\4 ]]
+#12 7.763 + '[' -z 3.22.1 ']'
+#12 7.763 ++ dpkg --compare-versions 3.22.1 lt 3.16.8
+#12 7.765 + [[ false == true ]]
+#12 7.765 + case "${ID}" in
+#12 7.765 + install_apt_packages make python3 python3-yaml python3-venv python3-joblib 'python3*-pip' libmsgpack-dev
+#12 7.765 + package_dependencies='make python3 python3-yaml python3-venv python3-joblib python3*-pip libmsgpack-dev'
+#12 7.765 + printf '\033[32mInstalling following packages from distro package manager: \033[33mmake python3 python3-yaml python3-venv python3-joblib python3*-pip libmsgpack-dev\033[32m \033[0m\n'
+#12 7.765 [32mInstalling following packages from distro package manager: [33mmake python3 python3-yaml python3-venv python3-joblib python3*-pip libmsgpack-dev[32m [0m
+#12 7.765 + elevate_if_not_root apt-get -y --no-install-recommends install make python3 python3-yaml python3-venv python3-joblib 'python3*-pip' libmsgpack-dev
+#12 7.765 ++ id -u
+#12 7.766 + local uid=0
+#12 7.766 + ((  0  ))
+#12 7.766 + apt-get -y --no-install-recommends install make python3 python3-yaml python3-venv python3-joblib 'python3*-pip' libmsgpack-dev
+#12 7.825 Reading package lists...
+#12 9.535 Building dependency tree...
+#12 9.758 Reading state information...
+#12 9.994 make is already the newest version (4.3-4.1build1).
+#12 9.994 make set to manually installed.
+#12 9.994 python3 is already the newest version (3.10.6-1~22.04.1).
+#12 9.994 python3-pip is already the newest version (22.0.2+dfsg-1ubuntu0.7).
+#12 9.994 python3-venv is already the newest version (3.10.6-1~22.04.1).
+#12 9.994 Suggested packages:
+#12 9.994   libboost-doc libboost1.74-doc libboost-atomic1.74-dev
+#12 9.994   libboost-chrono1.74-dev libboost-container1.74-dev libboost-context1.74-dev
+#12 9.994   libboost-contract1.74-dev libboost-coroutine1.74-dev
+#12 9.994   libboost-date-time1.74-dev libboost-exception1.74-dev libboost-fiber1.74-dev
+#12 9.994   libboost-filesystem1.74-dev libboost-graph1.74-dev
+#12 9.994   libboost-graph-parallel1.74-dev libboost-iostreams1.74-dev
+#12 9.994   libboost-locale1.74-dev libboost-log1.74-dev libboost-math1.74-dev
+#12 9.994   libboost-mpi1.74-dev libboost-mpi-python1.74-dev libboost-numpy1.74-dev
+#12 9.994   libboost-program-options1.74-dev libboost-python1.74-dev
+#12 9.994   libboost-random1.74-dev libboost-regex1.74-dev
+#12 9.994   libboost-serialization1.74-dev libboost-stacktrace1.74-dev
+#12 9.994   libboost-system1.74-dev libboost-test1.74-dev libboost-thread1.74-dev
+#12 9.994   libboost-timer1.74-dev libboost-type-erasure1.74-dev libboost-wave1.74-dev
+#12 9.994   libboost1.74-tools-dev libmpfrc++-dev libntl-dev libboost-nowide1.74-dev
+#12 9.994   libmsgpack-doc
+#12 9.994 Recommended packages:
+#12 9.994   python3-numpy python3-pytest python3-simplejson python3-psutil
+#12 10.10 The following NEW packages will be installed:
+#12 10.10   libboost-dev libboost1.74-dev libmsgpack-dev libmsgpackc2 libyaml-0-2
+#12 10.10   python3-joblib python3-yaml
+#12 10.18 0 upgraded, 7 newly installed, 0 to remove and 92 not upgraded.
+#12 10.18 Need to get 10.2 MB of archives.
+#12 10.18 After this operation, 149 MB of additional disk space will be used.
+#12 10.18 Get:1 http://archive.ubuntu.com/ubuntu jammy/main amd64 libyaml-0-2 amd64 0.2.2-1build2 [51.6 kB]
+#12 10.22 Get:2 http://archive.ubuntu.com/ubuntu jammy/main amd64 python3-yaml amd64 5.4.1-1ubuntu1 [129 kB]
+#12 10.26 Get:3 http://archive.ubuntu.com/ubuntu jammy/main amd64 libboost1.74-dev amd64 1.74.0-14ubuntu3 [9609 kB]
+#12 11.12 Get:4 http://archive.ubuntu.com/ubuntu jammy/main amd64 libboost-dev amd64 1.74.0.3ubuntu7 [3490 B]
+#12 11.12 Get:5 http://archive.ubuntu.com/ubuntu jammy/universe amd64 python3-joblib all 0.17.0-4ubuntu1 [204 kB]
+#12 11.13 Get:6 http://archive.ubuntu.com/ubuntu jammy/universe amd64 libmsgpackc2 amd64 3.3.0-4 [15.1 kB]
+#12 11.14 Get:7 http://archive.ubuntu.com/ubuntu jammy/universe amd64 libmsgpack-dev amd64 3.3.0-4 [230 kB]
+#12 11.36 debconf: delaying package configuration, since apt-utils is not installed
+#12 11.39 Fetched 10.2 MB in 1s (9767 kB/s)
+#12 11.42 Selecting previously unselected package libyaml-0-2:amd64.
+#12 11.42 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 28249 files and directories currently installed.)
+#12 11.44 Preparing to unpack .../0-libyaml-0-2_0.2.2-1build2_amd64.deb ...
+#12 11.45 Unpacking libyaml-0-2:amd64 (0.2.2-1build2) ...
+#12 11.48 Selecting previously unselected package python3-yaml.
+#12 11.48 Preparing to unpack .../1-python3-yaml_5.4.1-1ubuntu1_amd64.deb ...
+#12 11.48 Unpacking python3-yaml (5.4.1-1ubuntu1) ...
+#12 11.52 Selecting previously unselected package libboost1.74-dev:amd64.
+#12 11.52 Preparing to unpack .../2-libboost1.74-dev_1.74.0-14ubuntu3_amd64.deb ...
+#12 11.52 Unpacking libboost1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+#12 14.31 Selecting previously unselected package libboost-dev:amd64.
+#12 14.32 Preparing to unpack .../3-libboost-dev_1.74.0.3ubuntu7_amd64.deb ...
+#12 14.32 Unpacking libboost-dev:amd64 (1.74.0.3ubuntu7) ...
+#12 14.34 Selecting previously unselected package python3-joblib.
+#12 14.35 Preparing to unpack .../4-python3-joblib_0.17.0-4ubuntu1_all.deb ...
+#12 14.35 Unpacking python3-joblib (0.17.0-4ubuntu1) ...
+#12 14.41 Selecting previously unselected package libmsgpackc2:amd64.
+#12 14.41 Preparing to unpack .../5-libmsgpackc2_3.3.0-4_amd64.deb ...
+#12 14.41 Unpacking libmsgpackc2:amd64 (3.3.0-4) ...
+#12 14.44 Selecting previously unselected package libmsgpack-dev:amd64.
+#12 14.44 Preparing to unpack .../6-libmsgpack-dev_3.3.0-4_amd64.deb ...
+#12 14.44 Unpacking libmsgpack-dev:amd64 (3.3.0-4) ...
+#12 14.63 Setting up libboost1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+#12 14.64 Setting up libmsgpackc2:amd64 (3.3.0-4) ...
+#12 14.65 Setting up python3-joblib (0.17.0-4ubuntu1) ...
+#12 14.99 Setting up libyaml-0-2:amd64 (0.2.2-1build2) ...
+#12 15.00 Setting up python3-yaml (5.4.1-1ubuntu1) ...
+#12 15.20 Setting up libboost-dev:amd64 (1.74.0.3ubuntu7) ...
+#12 15.23 Setting up libmsgpack-dev:amd64 (3.3.0-4) ...
+#12 15.23 Processing triggers for libc-bin (2.35-0ubuntu3.4) ...
+#12 15.31 + check_exit_code 0
+#12 15.31 + ((  0 != 0  ))
+#12 15.31 + [[ ubuntu == \u\b\u\n\t\u ]]
+#12 15.31 + [[ 22.04 == \1\6\.\0\4 ]]
+#12 15.31 + '[' -z 3.22.1 ']'
+#12 15.31 ++ dpkg --compare-versions 3.22.1 lt 3.16.8
+#12 15.32 + case "${ID}" in
+#12 15.32 + [[ false == true ]]
+#12 15.32 + full_build_dir=
+#12 15.32 + [[ true == true ]]
+#12 15.32 + full_build_dir=/build/rocBLAS/build/release
+#12 15.32 + [[ false == false ]]
+#12 15.32 + pushd .
+#12 15.32 /build/rocBLAS /build/rocBLAS
+#12 15.32 + rm -rf /build/rocBLAS/build/release
+#12 15.32 + python3 ./rmake.py --install_invoked -d -a gfx803 -i --build_dir=/build/rocBLAS/build --src_path=/build/rocBLAS
+#12 16.95 -- The CXX compiler identification is Clang 17.0.0
+#12 16.96 -- Detecting CXX compiler ABI info
+#12 18.53 -- Detecting CXX compiler ABI info - done
+#12 18.55 -- Check for working CXX compiler: /opt/rocm/bin/hipcc - skipped
+#12 18.55 -- Detecting CXX compile features
+#12 18.55 -- Detecting CXX compile features - done
+#12 18.65 -- Use hip-clang to build for amdgpu backend
+#12 18.65 -- Looking for C++ include pthread.h
+#12 21.01 -- Looking for C++ include pthread.h - found
+#12 21.01 -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+#12 23.32 -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+#12 23.33 -- Found Threads: TRUE  
+#12 23.34 -- OS detected is ubuntu
+#12 24.93 -- Performing Test COMPILER_HAS_TARGET_ID_gfx803
+#12 27.24 -- Performing Test COMPILER_HAS_TARGET_ID_gfx803 - Success
+#12 27.24 /usr/bin/python3 -m venv /build/rocBLAS/build/release/virtualenv --system-site-packages --clear
+#12 31.67 virtualenv python version: /build/rocBLAS/build/release/virtualenv/bin/python3
+#12 31.68 Python 3.10.12
+#12 31.68 /build/rocBLAS/build/release/virtualenv/bin/python3 -m pip install git+https://github.com/ROCmSoftwarePlatform/Tensile.git@97e0cfc2c8cb87a1e38901d99c39090dc4181652
+#12 32.22 Collecting git+https://github.com/ROCmSoftwarePlatform/Tensile.git@97e0cfc2c8cb87a1e38901d99c39090dc4181652
+#12 32.22   Cloning https://github.com/ROCmSoftwarePlatform/Tensile.git (to revision 97e0cfc2c8cb87a1e38901d99c39090dc4181652) to /tmp/pip-req-build-mhbo7bi8
+#12 32.23   Running command git clone --filter=blob:none --quiet https://github.com/ROCmSoftwarePlatform/Tensile.git /tmp/pip-req-build-mhbo7bi8
+#12 37.69   Running command git rev-parse -q --verify 'sha^97e0cfc2c8cb87a1e38901d99c39090dc4181652'
+#12 37.69   Running command git fetch -q https://github.com/ROCmSoftwarePlatform/Tensile.git 97e0cfc2c8cb87a1e38901d99c39090dc4181652
+#12 38.24   Running command git checkout -q 97e0cfc2c8cb87a1e38901d99c39090dc4181652
+#12 40.44   Resolved https://github.com/ROCmSoftwarePlatform/Tensile.git to commit 97e0cfc2c8cb87a1e38901d99c39090dc4181652
+#12 40.44   Running command git submodule update --init --recursive -q
+#12 43.29   Preparing metadata (setup.py): started
+#12 43.89   Preparing metadata (setup.py): finished with status 'done'
+#12 43.89 Requirement already satisfied: joblib in /usr/lib/python3/dist-packages (from Tensile==4.38.0) (0.17.0)
+#12 44.52 Collecting msgpack
+#12 44.76   Downloading msgpack-1.2.1-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (407 kB)
+#12 44.92      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 407.6/407.6 KB 2.7 MB/s eta 0:00:00
+#12 44.92 Requirement already satisfied: pyyaml in /usr/lib/python3/dist-packages (from Tensile==4.38.0) (5.4.1)
+#12 44.93 Building wheels for collected packages: Tensile
+#12 44.94   Building wheel for Tensile (setup.py): started
+#12 48.06   Building wheel for Tensile (setup.py): finished with status 'done'
+#12 48.08   Created wheel for Tensile: filename=Tensile-4.38.0-py3-none-any.whl size=4581370 sha256=46bd5f15a26163382c5e226e4949e56fc4c15d91e251341a96823d11f559037a
+#12 48.08   Stored in directory: /root/.cache/pip/wheels/70/a7/74/2185cc2a3b93d9dafbe22525ba3eff654d215ebc0059c8d2e8
+#12 48.09 Successfully built Tensile
+#12 48.14 Installing collected packages: msgpack, Tensile
+#12 49.71 Successfully installed Tensile-4.38.0 msgpack-1.2.1
+#12 49.98 -- using GIT Tensile fork=ROCmSoftwarePlatform from branch=97e0cfc2c8cb87a1e38901d99c39090dc4181652
+#12 49.98 -- Adding /build/rocBLAS/build/release/virtualenv to CMAKE_PREFIX_PATH
+#12 50.17 -- The C compiler identification is Clang 17.0.0
+#12 50.18 -- Detecting C compiler ABI info
+#12 50.47 -- Detecting C compiler ABI info - done
+#12 50.48 -- Check for working C compiler: /opt/rocm/bin/hipcc - skipped
+#12 50.48 -- Detecting C compile features
+#12 50.48 -- Detecting C compile features - done
+#12 50.56 -- hip::amdhip64 is SHARED_LIBRARY
+#12 50.56 -- Performing Test HIP_CLANG_SUPPORTS_PARALLEL_JOBS
+#12 52.86 -- Performing Test HIP_CLANG_SUPPORTS_PARALLEL_JOBS - Success
+#12 53.04 -- hip::amdhip64 is SHARED_LIBRARY
+#12 53.14 -- Using AMDGPU_TARGETS: gfx803
+#12 53.15 -- Tensile script: /build/rocBLAS/build/release/virtualenv/lib/python3.10/site-packages/Tensile/bin/TensileCreateLibrary
+#12 53.15 -- Tensile_CREATE_COMMAND: /build/rocBLAS/build/release/virtualenv/lib/python3.10/site-packages/Tensile/bin/TensileCreateLibrary;--merge-files;--separate-architectures;--lazy-library-loading;--no-short-file-names;--no-library-print-debug;--code-object-version=default;--cxx-compiler=hipcc;--library-format=msgpack;--architecture=gfx803;/build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full;/build/rocBLAS/build/release/Tensile;HIP
+#12 53.15 -- Tensile_MANIFEST_FILE_PATH: /build/rocBLAS/build/release/Tensile/library/TensileManifest.txt
+#12 53.49 '/build/rocBLAS/build/release/virtualenv/lib/python3.10/site-packages/Tensile/bin/TensileCreateLibrary' '--merge-files' '--separate-architectures' '--lazy-library-loading' '--no-short-file-names' '--no-library-print-debug' '--code-object-version=default' '--cxx-compiler=hipcc' '--library-format=msgpack' '--architecture=gfx803' '/build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full' '/build/rocBLAS/build/release/Tensile' 'HIP' '--generate-manifest-and-exit'
+#12 53.49 
+#12 53.49 ################################################################################
+#12 53.49 # Tensile Create Library
+#12 53.55 # Detected local GPU with ISA: gfx803
+#12 53.55 # Detected local GPU with ISA: gfx803
+#12 53.65 # Found  hipcc version 5.7.31921-1949b1621
+#12 68.20                   cap gfx000 gfx803 gfx900 gfx906 gfx908 gfx90a gfx940 gfx941 gfx942 gfx1010 gfx1011 gfx1012 gfx1030 gfx1031 gfx1100 gfx1101 gfx1102 
+#12 68.20       HasMFMA_bf16_1k      0      0      0      0      0      1      1      1      1       0       0       0       0       0       0       0       0 
+#12 68.20        HasMFMA_i8_908      0      0      0      0      1      1      0      0      0       0       0       0       0       0       0       0       0 
+#12 68.20        HasMFMA_i8_940      0      0      0      0      0      0      1      1      1       0       0       0       0       0       0       0       0 
+#12 68.20            HasAddLshl      0      0      1      1      1      1      1      1      1       1       1       1       1       1       1       1       1 
+#12 68.20          HasAtomicAdd      0      0      0      0      1      1      1      1      1       0       0       0       0       0       1       1       1 
+#12 68.20    HasDirectToLdsDest      0      0      0      0      0      0      0      0      0       0       0       0       0       0       0       0       0 
+#12 68.20  HasDirectToLdsNoDest      0      1      1      1      1      1      1      1      1       1       1       1       1       1       0       0       0 
+#12 68.20         HasExplicitCO      0      0      1      1      1      1      1      1      1       1       1       1       1       1       1       1       1 
+#12 68.20         HasExplicitNC      0      0      0      0      0      0      0      0      0       1       1       1       1       1       1       1       1 
+#12 68.20        HasGLCModifier      0      1      1      1      1      1      0      0      0       1       1       1       1       1       1       1       1 
+#12 68.20             HasLshlOr      0      0      1      1      1      1      1      1      1       1       1       1       1       1       1       1       1 
+#12 68.20               HasMFMA      0      0      0      0      1      1      1      1      1       0       0       0       0       0       0       0       0 
+#12 68.20             HasSMulHi      0      0      1      1      1      1      1      1      1       1       1       1       1       1       1       1       1 
+#12 68.20               HasWMMA      0      0      0      0      0      0      0      0      0       0       0       0       0       0       1       1       1 
+#12 68.20            MaxLgkmcnt      1      1      1      1      1      1      1      1      1       1       1       1       1       1       1       1       1 
+#12 68.20              MaxVmcnt      0      1      1      1      1      1      1      1      1       1       1       1       1       1       1       1       1 
+#12 68.20          SupportedISA      0      1      1      1      1      1      1      1      1       1       1       1       1       1       1       1       1 
+#12 68.20       SupportedSource      1      1      1      1      1      1      1      1      1       1       1       1       1       1       1       1       1 
+#12 68.20            HasMFMA_b8      0      0      0      0      0      0      1      1      1       0       0       0       0       0       0       0       0 
+#12 68.20        v_dot2_f32_f16      0      0      0      1      1      1      1      1      1       0       1       1       1       1       1       1       1 
+#12 68.20       v_dot2c_f32_f16      0      0      0      0      1      1      1      1      1       0       1       1       1       1       1       1       1 
+#12 68.20             v_fma_f16      0      0      1      1      1      1      1      1      1       1       1       1       1       1       1       1       1 
+#12 68.20            v_fmac_f16      0      0      0      0      0      0      0      0      0       0       0       0       0       0       0       0       0 
+#12 68.20             v_mac_f16      0      1      1      1      1      1      1      1      1       0       0       0       0       0       0       0       0 
+#12 68.20          v_pk_fma_f16      0      0      1      1      1      1      1      1      1       1       1       1       1       1       1       1       1 
+#12 68.20         v_pk_fmac_f16      0      0      0      0      0      0      0      0      0       0       0       0       0       0       0       0       0 
+#12 68.20             v_fma_f32      0      1      1      1      1      1      1      1      1       1       1       1       1       1       1       1       1 
+#12 68.20         v_fma_mix_f32      0      0      0      1      1      1      1      1      1       1       1       1       1       1       1       1       1 
+#12 68.20            v_fmac_f32      0      0      0      1      1      1      1      1      1       1       1       1       1       1       1       1       1 
+#12 68.20             v_mac_f32      0      1      1      1      1      1      0      0      0       1       1       1       0       0       0       0       0 
+#12 68.20         v_mad_mix_f32      0      0      1      0      0      0      0      0      0       0       0       0       0       0       0       0       0 
+#12 68.20           HasMFMA_f64      0      0      0      0      0      1      1      1      1       0       0       0       0       0       0       0       0 
+#12 68.20             v_fma_f64      0      1      1      1      1      1      1      1      1       1       1       1       1       1       1       1       1 
+#12 68.20            HasMFMA_f8      0      0      0      0      0      0      1      1      1       0       0       0       0       0       0       0       0 
+#12 68.20     VOP3v_dot4_i32_i8      0      0      0      1      1      1      1      1      1       0       1       1       1       1       0       0       0 
+#12 68.20         v_dot4_i32_i8      0      0      0      0      0      0      0      0      0       0       0       0       0       0       0       0       0 
+#12 68.20        v_dot4c_i32_i8      0      0      0      0      1      1      1      1      1       0       1       1       1       1       0       0       0 
+#12 68.20 HasMFMA_bf16_original      0      0      0      0      1      1      0      0      0       0       0       0       0       0       0       0       0 
+#12 68.20          HasMFMA_vgpr      0      0      0      0      0      1      1      1      1       0       0       0       0       0       0       0       0 
+#12 68.20          HasMFMA_xf32      0      0      0      0      0      0      1      1      1       0       0       0       0       0       0       0       0 
+#12 68.20    ArchAccUnifiedRegs      0      0      0      0      0      1      1      1      1       0       0       0       0       0       0       0       0 
+#12 68.20        CMPXWritesSGPR      1      1      1      1      1      1      1      1      1       0       0       0       0       0       0       0       0 
+#12 68.20         CrosslaneWait      0      0      0      0      0      0      1      1      1       0       0       0       0       0       0       0       0 
+#12 68.20         ForceStoreSC1      0      0      0      0      0      0      0      1      1       0       0       0       0       0       0       0       0 
+#12 68.20              HasAccCD      0      0      0      0      0      1      1      1      1       0       0       0       0       0       0       0       0 
+#12 68.20            HasEccHalf      0      0      0      1      1      1      1      1      1       0       0       0       0       0       0       0       0 
+#12 68.20             HasWave32      0      0      0      0      0      0      0      0      0       1       1       1       1       1       1       1       1 
+#12 68.20            InstRename      0      0      0      0      0      0      0      0      0       0       0       0       0       0       1       1       1 
+#12 68.20         SeparateVscnt      0      0      0      0      0      0      0      0      0       1       1       1       1       1       1       1       1 
+#12 68.20              VgprBank      0      0      0      0      0      0      0      0      0       1       1       1       1       1       1       1       1 
+#12 68.20      Waitcnt0Disabled      0      0      0      0      1      1      1      1      1       0       0       0       0       0       0       0       0 
+#12 68.20 # CodeObjectVersion from TensileCreateLibrary: default
+#12 68.20 # CxxCompiler       from TensileCreateLibrary: hipcc
+#12 68.20 # Architecture      from TensileCreateLibrary: gfx803
+#12 68.20 # LibraryFormat     from TensileCreateLibrary: msgpack
+#12 68.21 # LibraryLogicFiles:
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/r9nano/r9nano_Cijk_Ailk_Bjlk_SB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/r9nano/r9nano_Cijk_Alik_Bjlk_SB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/r9nano/r9nano_Cijk_Alik_Bjlk_DB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/r9nano/r9nano_Cijk_Ailk_Bljk_SB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/r9nano/r9nano_Cijk_Ailk_Bljk_DB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/r9nano/r9nano_Cijk_Alik_Bljk_SB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/r9nano/r9nano_Cijk_Alik_Bljk_DB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/r9nano/r9nano_Cijk_Ailk_Bjlk_DB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_4xi8II_BH_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_HHS_BH.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_BjlkC_CB_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_HSS_BH_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_HHS_BH.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_DB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_ZB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_BSS_BH.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_ZB_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_SB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_ZB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_BjlkC_ZB_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_HB_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_BBS_BH.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_CB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_SB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_HB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_I8II_BH_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_AlikC_Bjlk_CB_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_BSS_BH.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_4xi8II_BH.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_SB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_DB_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_HHS_BH_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_I8II_BH.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_HSS_BH_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_AlikC_Bljk_CB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_AlikC_BjlkC_CB_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_CB_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_BjlkC_ZB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_BSS_BH_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_BSS_BH_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_SB_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_BSS_BH_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_I8II_BH_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_HHS_BH.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_AlikC_Bljk_ZB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_AlikC_BjlkC_ZB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_HB_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_4xi8II_BH_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_CB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_HSS_BH_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_BBS_BH_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_CB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_BSS_BH_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_AlikC_Bjlk_ZB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_AlikC_Bljk_CB_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_CB_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_HSS_BH.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_DB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_BjlkC_CB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_I8II_BH.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_AlikC_Bjlk_CB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_DB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_BBS_BH_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_AlikC_BjlkC_ZB_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_AlikC_Bljk_ZB_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_HHS_BH.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_BBS_BH.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_BBS_BH.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_DB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_I8II_BH.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_CB_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_4xi8II_BH.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_HSS_BH.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_HHS_BH_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_4xi8II_BH_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_BBS_BH_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_HB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_4xi8II_BH.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_HB_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_CB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_SB_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_BBS_BH_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_BjlkC_ZB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_HHS_BH_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_HB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_ZB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_HSS_BH_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_ZB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_SB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_4xi8II_BH.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_BjlkC_ZB_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_AlikC_Bjlk_ZB_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_BjlkC_CB_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_DB_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_ZB_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_BSS_BH.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_ZB_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_AlikC_BjlkC_CB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_HB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_HB_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_HHS_BH_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_BSS_BH.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_I8II_BH.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_I8II_BH_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_SB_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_HSS_BH.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_BjlkC_CB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_BBS_BH.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_HSS_BH.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_DB_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_4xi8II_BH_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_DB_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_ZB_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_CB_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_SB_GB.yaml
+#12 68.21 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_I8II_BH_GB.yaml
+#12 68.21 Reading logic files: Launching 88 threads for 116 tasks...
+#12 70.77 Reading logic files: Done.
+#12 70.86 [|                                                                        ]   1%[||                                                                       ]   3%[|||                                                                      ]   4%[||||                                                                     ]   6%[|||||                                                                    ]   6%[||||||                                                                   ]   8%[|||||||                                                                  ]  10%[||||||||                                                                 ]  11%[|||||||||                                                                ]  12%[||||||||||                                                               ]  13%[|||||||||||                                                              ]  15%[||||||||||||                                                             ]  17%[|||||||||||||                                                            ]  18%[||||||||||||||                                                           ]  19%[|||||||||||||||                                                          ]  20%[||||||||||||||||                                                         ]  22%[|||||||||||||||||                                                        ]  24%[||||||||||||||||||                                                       ]  25%[|||||||||||||||||||                                                      ]  26%[||||||||||||||||||||                                                     ]  27%[|||||||||||||||||||||                                                    ]  29%[||||||||||||||||||||||                                                   ]  30%[|||||||||||||||||||||||                                                  ]  31%[||||||||||||||||||||||||                                                 ]  33%[|||||||||||||||||||||||||                                                ]  34%[||||||||||||||||||||||||||                                               ]  36%[|||||||||||||||||||||||||||                                              ]  37%[||||||||||||||||||||||||||||                                             ]  38%[|||||||||||||||||||||||||||||                                            ]  40%[||||||||||||||||||||||||||||||                                           ]  41%[|||||||||||||||||||||||||||||||                                          ]  43%[||||||||||||||||||||||||||||||||                                         ]  43%[|||||||||||||||||||||||||||||||||                                        ]  45%[||||||||||||||||||||||||||||||||||                                       ]  47%[|||||||||||||||||||||||||||||||||||                                      ]  48%[||||||||||||||||||||||||||||||||||||                                     ]  50%[|||||||||||||||||||||||||||||||||||||                                    ]  50%[||||||||||||||||||||||||||||||||||||||                                   ]  52%[|||||||||||||||||||||||||||||||||||||||                                  ]  53%[||||||||||||||||||||||||||||||||||||||||                                 ]  55%[|||||||||||||||||||||||||||||||||||||||||                                ]  56%[||||||||||||||||||||||||||||||||||||||||||                               ]  57%[|||||||||||||||||||||||||||||||||||||||||||                              ]  59%[||||||||||||||||||||||||||||||||||||||||||||                             ]  60%[|||||||||||||||||||||||||||||||||||||||||||||                            ]  62%[||||||||||||||||||||||||||||||||||||||||||||||                           ]  63%[|||||||||||||||||||||||||||||||||||||||||||||||                          ]  64%[||||||||||||||||||||||||||||||||||||||||||||||||                         ]  66%[|||||||||||||||||||||||||||||||||||||||||||||||||                        ]  67%[||||||||||||||||||||||||||||||||||||||||||||||||||                       ]  68%[|||||||||||||||||||||||||||||||||||||||||||||||||||                      ]  70%[||||||||||||||||||||||||||||||||||||||||||||||||||||                     ]  71%[|||||||||||||||||||||||||||||||||||||||||||||||||||||                    ]  73%[||||||||||||||||||||||||||||||||||||||||||||||||||||||                   ]  74%[|||||||||||||||||||||||||||||||||||||||||||||||||||||||                  ]  75%[||||||||||||||||||||||||||||||||||||||||||||||||||||||||                 ]  76%[|||||||||||||||||||||||||||||||||||||||||||||||||||||||||                ]  78%[||||||||||||||||||||||||||||||||||||||||||||||||||||||||||               ]  80%[|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||              ]  81%[||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||             ]  82%[|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||            ]  83%[||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||           ]  85%[|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||          ]  87%[||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||         ]  87%[|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||        ]  89%[||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||       ]  90%[|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||      ]  92%[||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||     ]  93%[|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||    ]  94%[||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||   ]  96%[|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||  ]  97%[|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| ]  99%[|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||] 100% (1.2 secs elapsed)
+#12 77.02 -- *** NOTE: blas2/rocblas_ger_kernels.cpp is compiled with the verbose flag -v for QC purposes.
+#12 77.03 -- Performing Test COMPILER_HAS_HIDDEN_VISIBILITY
+#12 79.33 -- Performing Test COMPILER_HAS_HIDDEN_VISIBILITY - Success
+#12 79.33 -- Performing Test COMPILER_HAS_HIDDEN_INLINE_VISIBILITY
+#12 81.67 -- Performing Test COMPILER_HAS_HIDDEN_INLINE_VISIBILITY - Success
+#12 81.67 -- Performing Test COMPILER_HAS_DEPRECATED_ATTR
+#12 84.07 -- Performing Test COMPILER_HAS_DEPRECATED_ATTR - Success
+#12 84.13 -- Could NOT find Doxygen (missing: DOXYGEN_EXECUTABLE) 
+#12 84.13 -- Configuring done
+#12 84.22 -- Generating done
+#12 84.22 -- Build files have been written to: /build/rocBLAS/build/release
+#12 84.29 [  0%] Generating /build/rocBLAS/build/release/include/rocblas/internal/rocblas_device_malloc.hpp
+#12 84.29 [  1%] Generating prototypes from /build/rocBLAS/library/src.
+#12 84.29 [  1%] Generating Tensile Libraries
+#12 84.31 [  1%] Built target rocblas_device_malloc
+#12 84.37 [  1%] Built target rocblas_proto_templates
+#12 84.62 
+#12 84.62 ################################################################################
+#12 84.62 # Tensile Create Library
+#12 84.68 # Detected local GPU with ISA: gfx803
+#12 84.68 # Detected local GPU with ISA: gfx803
+#12 84.79 # Found  hipcc version 5.7.31921-1949b1621
+#12 99.46                   cap gfx000 gfx803 gfx900 gfx906 gfx908 gfx90a gfx940 gfx941 gfx942 gfx1010 gfx1011 gfx1012 gfx1030 gfx1031 gfx1100 gfx1101 gfx1102 
+#12 99.46       HasMFMA_bf16_1k      0      0      0      0      0      1      1      1      1       0       0       0       0       0       0       0       0 
+#12 99.46        HasMFMA_i8_908      0      0      0      0      1      1      0      0      0       0       0       0       0       0       0       0       0 
+#12 99.46        HasMFMA_i8_940      0      0      0      0      0      0      1      1      1       0       0       0       0       0       0       0       0 
+#12 99.46            HasAddLshl      0      0      1      1      1      1      1      1      1       1       1       1       1       1       1       1       1 
+#12 99.46          HasAtomicAdd      0      0      0      0      1      1      1      1      1       0       0       0       0       0       1       1       1 
+#12 99.46    HasDirectToLdsDest      0      0      0      0      0      0      0      0      0       0       0       0       0       0       0       0       0 
+#12 99.46  HasDirectToLdsNoDest      0      1      1      1      1      1      1      1      1       1       1       1       1       1       0       0       0 
+#12 99.46         HasExplicitCO      0      0      1      1      1      1      1      1      1       1       1       1       1       1       1       1       1 
+#12 99.46         HasExplicitNC      0      0      0      0      0      0      0      0      0       1       1       1       1       1       1       1       1 
+#12 99.46        HasGLCModifier      0      1      1      1      1      1      0      0      0       1       1       1       1       1       1       1       1 
+#12 99.46             HasLshlOr      0      0      1      1      1      1      1      1      1       1       1       1       1       1       1       1       1 
+#12 99.46               HasMFMA      0      0      0      0      1      1      1      1      1       0       0       0       0       0       0       0       0 
+#12 99.46             HasSMulHi      0      0      1      1      1      1      1      1      1       1       1       1       1       1       1       1       1 
+#12 99.46               HasWMMA      0      0      0      0      0      0      0      0      0       0       0       0       0       0       1       1       1 
+#12 99.46            MaxLgkmcnt      1      1      1      1      1      1      1      1      1       1       1       1       1       1       1       1       1 
+#12 99.46              MaxVmcnt      0      1      1      1      1      1      1      1      1       1       1       1       1       1       1       1       1 
+#12 99.46          SupportedISA      0      1      1      1      1      1      1      1      1       1       1       1       1       1       1       1       1 
+#12 99.46       SupportedSource      1      1      1      1      1      1      1      1      1       1       1       1       1       1       1       1       1 
+#12 99.46            HasMFMA_b8      0      0      0      0      0      0      1      1      1       0       0       0       0       0       0       0       0 
+#12 99.46        v_dot2_f32_f16      0      0      0      1      1      1      1      1      1       0       1       1       1       1       1       1       1 
+#12 99.46       v_dot2c_f32_f16      0      0      0      0      1      1      1      1      1       0       1       1       1       1       1       1       1 
+#12 99.46             v_fma_f16      0      0      1      1      1      1      1      1      1       1       1       1       1       1       1       1       1 
+#12 99.46            v_fmac_f16      0      0      0      0      0      0      0      0      0       0       0       0       0       0       0       0       0 
+#12 99.46             v_mac_f16      0      1      1      1      1      1      1      1      1       0       0       0       0       0       0       0       0 
+#12 99.46          v_pk_fma_f16      0      0      1      1      1      1      1      1      1       1       1       1       1       1       1       1       1 
+#12 99.46         v_pk_fmac_f16      0      0      0      0      0      0      0      0      0       0       0       0       0       0       0       0       0 
+#12 99.46             v_fma_f32      0      1      1      1      1      1      1      1      1       1       1       1       1       1       1       1       1 
+#12 99.46         v_fma_mix_f32      0      0      0      1      1      1      1      1      1       1       1       1       1       1       1       1       1 
+#12 99.46            v_fmac_f32      0      0      0      1      1      1      1      1      1       1       1       1       1       1       1       1       1 
+#12 99.46             v_mac_f32      0      1      1      1      1      1      0      0      0       1       1       1       0       0       0       0       0 
+#12 99.46         v_mad_mix_f32      0      0      1      0      0      0      0      0      0       0       0       0       0       0       0       0       0 
+#12 99.46           HasMFMA_f64      0      0      0      0      0      1      1      1      1       0       0       0       0       0       0       0       0 
+#12 99.46             v_fma_f64      0      1      1      1      1      1      1      1      1       1       1       1       1       1       1       1       1 
+#12 99.46            HasMFMA_f8      0      0      0      0      0      0      1      1      1       0       0       0       0       0       0       0       0 
+#12 99.46     VOP3v_dot4_i32_i8      0      0      0      1      1      1      1      1      1       0       1       1       1       1       0       0       0 
+#12 99.46         v_dot4_i32_i8      0      0      0      0      0      0      0      0      0       0       0       0       0       0       0       0       0 
+#12 99.46        v_dot4c_i32_i8      0      0      0      0      1      1      1      1      1       0       1       1       1       1       0       0       0 
+#12 99.46 HasMFMA_bf16_original      0      0      0      0      1      1      0      0      0       0       0       0       0       0       0       0       0 
+#12 99.46          HasMFMA_vgpr      0      0      0      0      0      1      1      1      1       0       0       0       0       0       0       0       0 
+#12 99.46          HasMFMA_xf32      0      0      0      0      0      0      1      1      1       0       0       0       0       0       0       0       0 
+#12 99.46    ArchAccUnifiedRegs      0      0      0      0      0      1      1      1      1       0       0       0       0       0       0       0       0 
+#12 99.46        CMPXWritesSGPR      1      1      1      1      1      1      1      1      1       0       0       0       0       0       0       0       0 
+#12 99.46         CrosslaneWait      0      0      0      0      0      0      1      1      1       0       0       0       0       0       0       0       0 
+#12 99.46         ForceStoreSC1      0      0      0      0      0      0      0      1      1       0       0       0       0       0       0       0       0 
+#12 99.46              HasAccCD      0      0      0      0      0      1      1      1      1       0       0       0       0       0       0       0       0 
+#12 99.46            HasEccHalf      0      0      0      1      1      1      1      1      1       0       0       0       0       0       0       0       0 
+#12 99.46             HasWave32      0      0      0      0      0      0      0      0      0       1       1       1       1       1       1       1       1 
+#12 99.46            InstRename      0      0      0      0      0      0      0      0      0       0       0       0       0       0       1       1       1 
+#12 99.46         SeparateVscnt      0      0      0      0      0      0      0      0      0       1       1       1       1       1       1       1       1 
+#12 99.46              VgprBank      0      0      0      0      0      0      0      0      0       1       1       1       1       1       1       1       1 
+#12 99.46      Waitcnt0Disabled      0      0      0      0      1      1      1      1      1       0       0       0       0       0       0       0       0 
+#12 99.46 # CodeObjectVersion from TensileCreateLibrary: default
+#12 99.46 # CxxCompiler       from TensileCreateLibrary: hipcc
+#12 99.46 # Architecture      from TensileCreateLibrary: gfx803
+#12 99.46 # LibraryFormat     from TensileCreateLibrary: msgpack
+#12 99.47 # LibraryLogicFiles:
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/r9nano/r9nano_Cijk_Ailk_Bjlk_SB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/r9nano/r9nano_Cijk_Alik_Bjlk_SB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/r9nano/r9nano_Cijk_Alik_Bjlk_DB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/r9nano/r9nano_Cijk_Ailk_Bljk_SB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/r9nano/r9nano_Cijk_Ailk_Bljk_DB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/r9nano/r9nano_Cijk_Alik_Bljk_SB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/r9nano/r9nano_Cijk_Alik_Bljk_DB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/r9nano/r9nano_Cijk_Ailk_Bjlk_DB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_4xi8II_BH_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_HHS_BH.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_BjlkC_CB_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_HSS_BH_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_HHS_BH.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_DB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_ZB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_BSS_BH.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_ZB_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_SB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_ZB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_BjlkC_ZB_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_HB_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_BBS_BH.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_CB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_SB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_HB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_I8II_BH_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_AlikC_Bjlk_CB_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_BSS_BH.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_4xi8II_BH.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_SB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_DB_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_HHS_BH_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_I8II_BH.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_HSS_BH_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_AlikC_Bljk_CB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_AlikC_BjlkC_CB_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_CB_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_BjlkC_ZB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_BSS_BH_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_BSS_BH_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_SB_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_BSS_BH_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_I8II_BH_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_HHS_BH.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_AlikC_Bljk_ZB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_AlikC_BjlkC_ZB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_HB_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_4xi8II_BH_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_CB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_HSS_BH_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_BBS_BH_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_CB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_BSS_BH_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_AlikC_Bjlk_ZB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_AlikC_Bljk_CB_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_CB_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_HSS_BH.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_DB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_BjlkC_CB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_I8II_BH.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_AlikC_Bjlk_CB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_DB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_BBS_BH_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_AlikC_BjlkC_ZB_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_AlikC_Bljk_ZB_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_HHS_BH.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_BBS_BH.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_BBS_BH.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_DB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_I8II_BH.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_CB_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_4xi8II_BH.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_HSS_BH.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_HHS_BH_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_4xi8II_BH_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_BBS_BH_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_HB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_4xi8II_BH.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_HB_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_CB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_SB_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_BBS_BH_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_BjlkC_ZB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_HHS_BH_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_HB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_ZB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_HSS_BH_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_ZB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_SB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_4xi8II_BH.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_BjlkC_ZB_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_AlikC_Bjlk_ZB_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_BjlkC_CB_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_DB_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_ZB_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_BSS_BH.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_ZB_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_AlikC_BjlkC_CB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_HB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_HB_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_HHS_BH_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_BSS_BH.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bljk_I8II_BH.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_I8II_BH_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_SB_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_HSS_BH.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_BjlkC_CB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_BBS_BH.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_HSS_BH.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bjlk_DB_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_4xi8II_BH_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Alik_Bjlk_DB_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_ZB_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_CB_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_SB_GB.yaml
+#12 99.47 #   /build/rocBLAS/library/src/blas3/Tensile/Logic/asm_full/hip/hip_Cijk_Ailk_Bljk_I8II_BH_GB.yaml
+#12 99.47 Reading logic files: Launching 88 threads for 116 tasks...
+#12 102.1 Reading logic files: Done.
+#12 102.2 [|                                                                        ]   1%[||                                                                       ]   3%[|||                                                                      ]   4%[||||                                                                     ]   6%[|||||                                                                    ]   6%[||||||                                                                   ]   8%[|||||||                                                                  ]  10%[||||||||                                                                 ]  11%[|||||||||                                                                ]  12%[||||||||||                                                               ]  13%[|||||||||||                                                              ]  15%[||||||||||||                                                             ]  17%[|||||||||||||                                                            ]  18%[||||||||||||||                                                           ]  19%[|||||||||||||||                                                          ]  20%[||||||||||||||||                                                         ]  22%[|||||||||||||||||                                                        ]  24%[||||||||||||||||||                                                       ]  25%[|||||||||||||||||||                                                      ]  26%[||||||||||||||||||||                                                     ]  27%[|||||||||||||||||||||                                                    ]  29%[||||||||||||||||||||||                                                   ]  30%[|||||||||||||||||||||||                                                  ]  31%[||||||||||||||||||||||||                                                 ]  33%[|||||||||||||||||||||||||                                                ]  34%[||||||||||||||||||||||||||                                               ]  36%[|||||||||||||||||||||||||||                                              ]  37%[||||||||||||||||||||||||||||                                             ]  38%[|||||||||||||||||||||||||||||                                            ]  40%[||||||||||||||||||||||||||||||                                           ]  41%[|||||||||||||||||||||||||||||||                                          ]  43%[||||||||||||||||||||||||||||||||                                         ]  43%[|||||||||||||||||||||||||||||||||                                        ]  45%[||||||||||||||||||||||||||||||||||                                       ]  47%[|||||||||||||||||||||||||||||||||||                                      ]  48%[||||||||||||||||||||||||||||||||||||                                     ]  50%[|||||||||||||||||||||||||||||||||||||                                    ]  50%[||||||||||||||||||||||||||||||||||||||                                   ]  52%[|||||||||||||||||||||||||||||||||||||||                                  ]  53%[||||||||||||||||||||||||||||||||||||||||                                 ]  55%[|||||||||||||||||||||||||||||||||||||||||                                ]  56%[||||||||||||||||||||||||||||||||||||||||||                               ]  57%[|||||||||||||||||||||||||||||||||||||||||||                              ]  59%[||||||||||||||||||||||||||||||||||||||||||||                             ]  60%[|||||||||||||||||||||||||||||||||||||||||||||                            ]  62%[||||||||||||||||||||||||||||||||||||||||||||||                           ]  63%[|||||||||||||||||||||||||||||||||||||||||||||||                          ]  64%[||||||||||||||||||||||||||||||||||||||||||||||||                         ]  66%[|||||||||||||||||||||||||||||||||||||||||||||||||                        ]  67%[||||||||||||||||||||||||||||||||||||||||||||||||||                       ]  68%[|||||||||||||||||||||||||||||||||||||||||||||||||||                      ]  70%[||||||||||||||||||||||||||||||||||||||||||||||||||||                     ]  71%[|||||||||||||||||||||||||||||||||||||||||||||||||||||                    ]  73%[||||||||||||||||||||||||||||||||||||||||||||||||||||||                   ]  74%[|||||||||||||||||||||||||||||||||||||||||||||||||||||||                  ]  75%[||||||||||||||||||||||||||||||||||||||||||||||||||||||||                 ]  76%[|||||||||||||||||||||||||||||||||||||||||||||||||||||||||                ]  78%[||||||||||||||||||||||||||||||||||||||||||||||||||||||||||               ]  80%[|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||              ]  81%[||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||             ]  82%[|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||            ]  83%[||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||           ]  85%[|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||          ]  87%[||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||         ]  87%[|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||        ]  89%[||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||       ]  90%[|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||      ]  92%[||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||     ]  93%[|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||    ]  94%[||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||   ]  96%[|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||  ]  97%[|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| ]  99%[|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||] 100% (1.2 secs elapsed)
+#12 107.0 # Writing Custom CMake
+#12 107.0 # Writing Kernels...
+#12 107.0 Generating kernels: Launching 88 threads...
+#12 108.4 Generating kernels: Done.
+#12 108.4 |/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|*
+#12 108.4 Compiling source kernels: Launching 88 threads...
+#12 134.7 Compiling source kernels: Done.
+#12 135.9 # Kernel Building elapsed time = 28.0 secs
+#12 135.9 # Tensile Library Writer DONE
+#12 135.9 ################################################################################
+#12 135.9 
+#12 137.2 [  1%] TENSILE_LIBRARY_TARGET: Copying tensile objects to /build/rocBLAS/build/release/Tensile/library
+#12 138.4 [  1%] Built target TENSILE_LIBRARY_TARGET
+#12 138.4 [  1%] Building CXX object Tensile/lib/CMakeFiles/TensileHost.dir/source/ArithmeticUnitTypes.cpp.o
+#12 138.4 [  3%] Building CXX object Tensile/lib/CMakeFiles/TensileHost.dir/source/ContractionProblem.cpp.o
+#12 138.4 [  3%] Building CXX object Tensile/lib/CMakeFiles/TensileHost.dir/source/AMDGPU.cpp.o
+#12 138.4 [  3%] Building CXX object Tensile/lib/CMakeFiles/TensileHost.dir/source/DataTypes.cpp.o
+#12 138.4 [  3%] Building CXX object Tensile/lib/CMakeFiles/TensileHost.dir/source/ContractionSolution.cpp.o
+#12 138.4 [  4%] Building CXX object Tensile/lib/CMakeFiles/TensileHost.dir/source/Debug.cpp.o
+#12 138.4 [  4%] Building CXX object Tensile/lib/CMakeFiles/TensileHost.dir/source/EmbeddedLibrary.cpp.o
+#12 138.4 [  4%] Building CXX object Tensile/lib/CMakeFiles/TensileHost.dir/source/KernelArguments.cpp.o
+#12 138.4 [  5%] Building CXX object Tensile/lib/CMakeFiles/TensileHost.dir/source/MLFeatures.cpp.o
+#12 138.4 [  5%] Building CXX object Tensile/lib/CMakeFiles/TensileHost.dir/source/KernelLanguageTypes.cpp.o
+#12 138.4 [  6%] Building CXX object Tensile/lib/CMakeFiles/TensileHost.dir/source/PerformanceMetricTypes.cpp.o
+#12 138.4 [  6%] Building CXX object Tensile/lib/CMakeFiles/TensileHost.dir/source/ScalarValueTypes.cpp.o
+#12 138.4 [  6%] Building CXX object Tensile/lib/CMakeFiles/TensileHost.dir/source/TensorDescriptor.cpp.o
+#12 138.4 [  7%] Building CXX object Tensile/lib/CMakeFiles/TensileHost.dir/source/TensorOps.cpp.o
+#12 138.4 [  7%] Building CXX object Tensile/lib/CMakeFiles/TensileHost.dir/source/Tensile.cpp.o
+#12 138.4 [  8%] Building CXX object Tensile/lib/CMakeFiles/TensileHost.dir/source/UserDrivenTuningParser.cpp.o
+#12 138.4 [  8%] Building CXX object Tensile/lib/CMakeFiles/TensileHost.dir/source/Utils.cpp.o
+#12 138.4 [  8%] Building CXX object Tensile/lib/CMakeFiles/TensileHost.dir/source/msgpack/MessagePack.cpp.o
+#12 138.4 [  9%] Building CXX object Tensile/lib/CMakeFiles/TensileHost.dir/source/hip/HipSolutionAdapter.cpp.o
+#12 138.4 [  9%] Building CXX object Tensile/lib/CMakeFiles/TensileHost.dir/source/hip/HipHardware.cpp.o
+#12 263.6 [  9%] Linking CXX static library librocblas-tensile.a
+#12 263.8 [  9%] Built target TensileHost
+#12 263.9 [  9%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas_ex/rocblas_gemm_ext2.cpp.o
+#12 263.9 [ 10%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas_ex/rocblas_axpy_ex.cpp.o
+#12 263.9 [ 10%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas_ex/rocblas_gemm_ex3.cpp.o
+#12 263.9 [ 11%] Building CXX object library/src/CMakeFiles/rocblas.dir/tensile_host.cpp.o
+#12 263.9 [ 11%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas_ex/rocblas_axpy_ex_kernels.cpp.o
+#12 263.9 [ 12%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas_ex/rocblas_axpy_batched_ex.cpp.o
+#12 263.9 [ 13%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas_ex/rocblas_dot_ex.cpp.o
+#12 263.9 [ 13%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas_ex/rocblas_axpy_strided_batched_ex.cpp.o
+#12 263.9 [ 13%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas_ex/rocblas_dot_batched_ex.cpp.o
+#12 263.9 [ 13%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas_ex/rocblas_dot_strided_batched_ex.cpp.o
+#12 263.9 [ 14%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas_ex/rocblas_rot_ex.cpp.o
+#12 263.9 [ 14%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas_ex/rocblas_rot_ex_kernels.cpp.o
+#12 263.9 [ 15%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas_ex/rocblas_rot_batched_ex.cpp.o
+#12 263.9 [ 15%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas_ex/rocblas_rot_strided_batched_ex.cpp.o
+#12 263.9 [ 15%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas_ex/rocblas_scal_ex.cpp.o
+#12 263.9 [ 16%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas_ex/rocblas_scal_ex_kernels.cpp.o
+#12 263.9 [ 16%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas_ex/rocblas_scal_strided_batched_ex.cpp.o
+#12 263.9 [ 17%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas_ex/rocblas_scal_batched_ex.cpp.o
+#12 263.9 [ 17%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas_ex/rocblas_nrm2_ex.cpp.o
+#12 263.9 [ 17%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas_ex/rocblas_trmm_outofplace.cpp.o
+#12 263.9 [ 17%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas_ex/rocblas_nrm2_batched_ex.cpp.o
+#12 263.9 [ 18%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas_ex/rocblas_nrm2_strided_batched_ex.cpp.o
+#12 263.9 [ 18%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas_ex/rocblas_trmm_outofplace_batched.cpp.o
+#12 263.9 [ 19%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas_ex/rocblas_trmm_outofplace_strided_batched.cpp.o
+#12 263.9 [ 19%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas_ex/rocblas_geam_ex.cpp.o
+#12 263.9 [ 20%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas_ex/rocblas_geam_ex_kernels.cpp.o
+#12 263.9 [ 20%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas_ex/rocblas_gemm_ex.cpp.o
+#12 263.9 [ 20%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas_ex/rocblas_gemm_batched_ex.cpp.o
+#12 263.9 [ 21%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas_ex/rocblas_gemm_strided_batched_ex.cpp.o
+#12 263.9 [ 21%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas_ex/rocblas_trsv_ex.cpp.o
+#12 263.9 [ 22%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas_ex/rocblas_trsv_strided_batched_ex.cpp.o
+#12 263.9 [ 22%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas_ex/rocblas_trsv_batched_ex.cpp.o
+#12 263.9 [ 22%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_hemm.cpp.o
+#12 263.9 [ 23%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_hemm_batched.cpp.o
+#12 263.9 [ 23%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_hemm_strided_batched.cpp.o
+#12 263.9 [ 23%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_herk.cpp.o
+#12 263.9 [ 25%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_her2k.cpp.o
+#12 263.9 [ 25%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_herk_batched.cpp.o
+#12 263.9 [ 25%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_her2k_batched.cpp.o
+#12 263.9 [ 25%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_her2k_strided_batched.cpp.o
+#12 263.9 [ 25%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_herk_strided_batched.cpp.o
+#12 263.9 [ 26%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_herkx.cpp.o
+#12 263.9 [ 27%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_herkx_strided_batched.cpp.o
+#12 263.9 [ 28%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_syrk.cpp.o
+#12 263.9 [ 28%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_herkx_batched.cpp.o
+#12 263.9 [ 28%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_symm.cpp.o
+#12 263.9 [ 28%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_syr2k.cpp.o
+#12 263.9 [ 28%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_syrk_batched.cpp.o
+#12 263.9 [ 28%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_symm_kernels.cpp.o
+#12 263.9 [ 29%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_symm_batched.cpp.o
+#12 263.9 [ 29%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_syr2k_her2k_kernels.cpp.o
+#12 263.9 [ 29%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_symm_strided_batched.cpp.o
+#12 263.9 [ 29%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_syrk_herk_kernels.cpp.o
+#12 263.9 [ 30%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_syrk_strided_batched.cpp.o
+#12 263.9 [ 30%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_syr2k_strided_batched.cpp.o
+#12 263.9 [ 31%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_syr2k_batched.cpp.o
+#12 263.9 [ 32%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/Tensile/gemm_batched.cpp.o
+#12 263.9 [ 32%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/Tensile/gemm.cpp.o
+#12 263.9 [ 32%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/Tensile/gemm_strided_batched.cpp.o
+#12 263.9 [ 33%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/Tensile/gemm_templates.cpp.o
+#12 263.9 [ 34%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_syrkx_herkx_kernels.cpp.o
+#12 263.9 [ 34%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_syrkx.cpp.o
+#12 263.9 [ 34%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_syrkx_batched.cpp.o
+#12 263.9 [ 34%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_trmm_kernels.cpp.o
+#12 263.9 [ 35%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_syrkx_strided_batched.cpp.o
+#12 263.9 [ 35%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_trmm.cpp.o
+#12 263.9 [ 36%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_trmm_batched.cpp.o
+#12 263.9 [ 36%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_trmm_strided_batched.cpp.o
+#12 263.9 [ 36%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_trsm_strided_batched.cpp.o
+#12 263.9 [ 36%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_trsm.cpp.o
+#12 263.9 [ 37%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_trsm_batched.cpp.o
+#12 263.9 [ 38%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_trtri.cpp.o
+#12 263.9 [ 38%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_trsm_kernels.cpp.o
+#12 263.9 [ 38%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_trtri_batched.cpp.o
+#12 263.9 [ 38%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_trtri_kernels.cpp.o
+#12 263.9 [ 39%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_trtri_strided_batched.cpp.o
+#12 263.9 [ 40%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_dgmm_kernels.cpp.o
+#12 263.9 [ 40%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_dgmm_batched.cpp.o
+#12 263.9 [ 40%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_dgmm.cpp.o
+#12 263.9 [ 41%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_dgmm_strided_batched.cpp.o
+#12 263.9 [ 41%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_geam.cpp.o
+#12 263.9 [ 41%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_geam_kernels.cpp.o
+#12 263.9 [ 42%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_geam_batched.cpp.o
+#12 263.9 [ 43%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_gemv.cpp.o
+#12 263.9 [ 43%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas3/rocblas_geam_strided_batched.cpp.o
+#12 263.9 [ 43%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_gemv_batched.cpp.o
+#12 263.9 [ 43%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_gemv_kernels.cpp.o
+#12 263.9 [ 44%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_gemv_strided_batched.cpp.o
+#12 271.4 [ 44%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_tpmv.cpp.o
+#12 271.6 [ 44%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_tpmv_kernels.cpp.o
+#12 271.6 [ 45%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_tpmv_batched.cpp.o
+#12 271.7 [ 45%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_tpmv_strided_batched.cpp.o
+#12 271.8 [ 46%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_gbmv.cpp.o
+#12 271.9 [ 46%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_gbmv_kernels.cpp.o
+#12 272.5 [ 46%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_gbmv_batched.cpp.o
+#12 273.7 [ 47%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_gbmv_strided_batched.cpp.o
+#12 273.8 [ 47%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_tbsv.cpp.o
+#12 273.8 [ 48%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_tbsv_kernels.cpp.o
+#12 273.9 [ 48%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_tbsv_batched.cpp.o
+#12 274.0 [ 48%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_tbsv_strided_batched.cpp.o
+#12 274.1 [ 49%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_trmv.cpp.o
+#12 274.1 [ 49%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_trmv_kernels.cpp.o
+#12 274.2 [ 50%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_trmv_batched.cpp.o
+#12 274.2 [ 50%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_trmv_strided_batched.cpp.o
+#12 274.2 [ 50%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_ger.cpp.o
+#12 274.3 [ 51%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_ger_kernels.cpp.o
+#12 274.3 [ 51%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_ger_batched.cpp.o
+#12 274.3 [ 51%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_ger_strided_batched.cpp.o
+#12 274.3 [ 52%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_hbmv.cpp.o
+#12 274.4 [ 52%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_hbmv_kernels.cpp.o
+#12 274.5 AMD clang version 17.0.0 (https://github.com/RadeonOpenCompute/llvm-project roc-5.7.1 23382 f3e174a1d286158c06e4cc8276366b1d4bc0c914)
+#12 274.5 Target: x86_64-unknown-linux-gnu
+#12 274.5 Thread model: posix
+#12 274.5 InstalledDir: /opt/rocm/llvm/bin
+#12 274.5 Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/11
+#12 274.5 Selected GCC installation: /usr/lib/gcc/x86_64-linux-gnu/11
+#12 274.5 Candidate multilib: .;@m64
+#12 274.5 Selected multilib: .;@m64
+#12 274.5 Found HIP installation: /opt/rocm, version 5.7.31921
+#12 274.5  "/opt/rocm-5.7.1/llvm/bin/clang-17" -cc1 -triple amdgcn-amd-amdhsa -aux-triple x86_64-unknown-linux-gnu -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name rocblas_ger_kernels.cpp -mrelocation-model pic -pic-level 2 -fhalf-no-semantic-interposition -mframe-pointer=none -fdenormal-fp-math-f32=preserve-sign,preserve-sign -fno-rounding-math -mconstructor-aliases -aux-target-cpu x86-64 -aux-target-feature +f16c -fcuda-is-device -mllvm -amdgpu-internalize-symbols -fcuda-allow-variadic-functions -mlink-builtin-bitcode /opt/rocm/amdgcn/bitcode/hip.bc -mlink-builtin-bitcode /opt/rocm/amdgcn/bitcode/ocml.bc -mlink-builtin-bitcode /opt/rocm/amdgcn/bitcode/ockl.bc -mlink-builtin-bitcode /opt/rocm/amdgcn/bitcode/oclc_daz_opt_on.bc -mlink-builtin-bitcode /opt/rocm/amdgcn/bitcode/oclc_unsafe_math_off.bc -mlink-builtin-bitcode /opt/rocm/amdgcn/bitcode/oclc_finite_only_off.bc -mlink-builtin-bitcode /opt/rocm/amdgcn/bitcode/oclc_correctly_rounded_sqrt_on.bc -mlink-builtin-bitcode /opt/rocm/amdgcn/bitcode/oclc_wavefrontsize64_on.bc -mlink-builtin-bitcode /opt/rocm/amdgcn/bitcode/oclc_isa_version_803.bc -mlink-builtin-bitcode /opt/rocm/amdgcn/bitcode/oclc_abi_version_500.bc -target-cpu gfx803 -debugger-tuning=gdb -v -resource-dir /opt/rocm-5.7.1/llvm/lib/clang/17.0.0 -dependency-file CMakeFiles/rocblas.dir/blas2/rocblas_ger_kernels.cpp.o.d -MT library/src/CMakeFiles/rocblas.dir/blas2/rocblas_ger_kernels.cpp.o -sys-header-deps -internal-isystem /opt/rocm-5.7.1/llvm/lib/clang/17.0.0/include/cuda_wrappers -idirafter /opt/rocm/include -include __clang_hip_runtime_wrapper.h -c-isystem /opt/rocm/llvm/include/gpu-none-llvm -isystem /opt/rocm-5.7.1/include -D BUILD_WITH_TENSILE=1 -D ROCBLAS_BETA_FEATURES_API -D ROCBLAS_INTERNAL_API -D ROCBLAS_TENSILE_LAZY_LOAD=1 -D ROCBLAS_TENSILE_SEPARATE_ARCH=1 -D ROCM_USE_FLOAT16 -D TENSILE_DEFAULT_SERIALIZATION -D TENSILE_MSGPACK=1 -D TENSILE_USE_HIP -D __HIP_PLATFORM_AMD__=1 -D __HIP_PLATFORM_HCC__=1 -D rocblas_EXPORTS -I /build/rocBLAS/library/include -I /build/rocBLAS/library/include/internal -I /build/rocBLAS/library/src/include -I /build/rocBLAS/build/release/include/rocblas/internal -I /build/rocBLAS/build/release/include/rocblas -I /build/rocBLAS/build/release/include -I /build/rocBLAS/library/src/blas3/Tensile -I /build/rocBLAS/build/release/virtualenv/lib/python3.10/site-packages/Tensile/Source/lib/include -D __HIP_HCC_COMPAT_MODE__=1 -D NDEBUG -internal-isystem /usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11 -internal-isystem /usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/x86_64-linux-gnu/c++/11 -internal-isystem /usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/backward -internal-isystem /usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11 -internal-isystem /usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/x86_64-linux-gnu/c++/11 -internal-isystem /usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/backward -internal-isystem /opt/rocm-5.7.1/llvm/lib/clang/17.0.0/include -internal-isystem /usr/local/include -internal-isystem /usr/lib/gcc/x86_64-linux-gnu/11/../../../../x86_64-linux-gnu/include -internal-externc-isystem /usr/include/x86_64-linux-gnu -internal-externc-isystem /include -internal-externc-isystem /usr/include -internal-isystem /opt/rocm-5.7.1/llvm/lib/clang/17.0.0/include -internal-isystem /usr/local/include -internal-isystem /usr/lib/gcc/x86_64-linux-gnu/11/../../../../x86_64-linux-gnu/include -internal-externc-isystem /usr/include/x86_64-linux-gnu -internal-externc-isystem /include -internal-externc-isystem /usr/include -O3 -Wno-unused-result -Werror=vla -std=c++17 -fdeprecated-macro -fno-autolink -fdebug-compilation-dir=/build/rocBLAS/build/release/library/src -ferror-limit 19 -fvisibility=hidden -fvisibility-inlines-hidden -fhip-new-launch-api -fgnuc-version=4.2.1 -fcxx-exceptions -fexceptions -vectorize-loops -vectorize-slp -mllvm -amdgpu-early-inline-all=true -mllvm -amdgpu-function-calls=false -cuid=c6e0cfd95b15d6e6 -fcuda-allow-variadic-functions -faddrsig -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o /tmp/rocblas_ger_kernels-gfx803-6cb2c1.o -x hip /build/rocBLAS/library/src/blas2/rocblas_ger_kernels.cpp
+#12 274.5 clang -cc1 version 17.0.0 based upon LLVM 17.0.0git default target x86_64-unknown-linux-gnu
+#12 274.5 ignoring nonexistent directory "/opt/rocm/llvm/include/gpu-none-llvm"
+#12 274.5 ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/11/../../../../x86_64-linux-gnu/include"
+#12 274.5 ignoring nonexistent directory "/include"
+#12 274.5 ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/11/../../../../x86_64-linux-gnu/include"
+#12 274.5 ignoring nonexistent directory "/include"
+#12 274.5 ignoring duplicate directory "/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11"
+#12 274.5 ignoring duplicate directory "/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/x86_64-linux-gnu/c++/11"
+#12 274.5 ignoring duplicate directory "/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/backward"
+#12 274.5 ignoring duplicate directory "/opt/rocm-5.7.1/llvm/lib/clang/17.0.0/include"
+#12 274.5 ignoring duplicate directory "/usr/local/include"
+#12 274.5 ignoring duplicate directory "/usr/include/x86_64-linux-gnu"
+#12 274.5 ignoring duplicate directory "/usr/include"
+#12 274.5 ignoring duplicate directory "/usr/local/include"
+#12 274.5 ignoring duplicate directory "/opt/rocm-5.7.1/llvm/lib/clang/17.0.0/include"
+#12 274.5 ignoring duplicate directory "/usr/include"
+#12 274.5 ignoring duplicate directory "/opt/rocm/include"
+#12 274.5 #include "..." search starts here:
+#12 274.5 #include <...> search starts here:
+#12 274.5  /build/rocBLAS/library/include
+#12 274.5  /build/rocBLAS/library/include/internal
+#12 274.5  /build/rocBLAS/library/src/include
+#12 274.5  /build/rocBLAS/build/release/include/rocblas/internal
+#12 274.5  /build/rocBLAS/build/release/include/rocblas
+#12 274.5  /build/rocBLAS/build/release/include
+#12 274.5  /build/rocBLAS/library/src/blas3/Tensile
+#12 274.5  /build/rocBLAS/build/release/virtualenv/lib/python3.10/site-packages/Tensile/Source/lib/include
+#12 274.5  /opt/rocm/include
+#12 274.5  /opt/rocm-5.7.1/llvm/lib/clang/17.0.0/include/cuda_wrappers
+#12 274.5  /usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11
+#12 274.5  /usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/x86_64-linux-gnu/c++/11
+#12 274.5  /usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/backward
+#12 274.5  /opt/rocm-5.7.1/llvm/lib/clang/17.0.0/include
+#12 274.5  /usr/local/include
+#12 274.5  /usr/include/x86_64-linux-gnu
+#12 274.5  /usr/include
+#12 274.5 End of search list.
+#12 274.6 [ 53%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_hbmv_batched.cpp.o
+#12 274.7 [ 53%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_hbmv_strided_batched.cpp.o
+#12 274.7 [ 53%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_hemv.cpp.o
+#12 274.7 [ 54%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_hemv_symv_kernels.cpp.o
+#12 274.7 [ 54%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_hemv_batched.cpp.o
+#12 274.8 [ 55%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_hemv_strided_batched.cpp.o
+#12 274.8 [ 55%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_her.cpp.o
+#12 274.8 [ 55%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_her_kernels.cpp.o
+#12 274.9 [ 56%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_her_batched.cpp.o
+#12 274.9 [ 56%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_her_strided_batched.cpp.o
+#12 274.9 [ 57%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_her2.cpp.o
+#12 275.0 [ 57%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_her2_kernels.cpp.o
+#12 275.1 [ 57%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_her2_batched.cpp.o
+#12 275.2 [ 58%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_her2_strided_batched.cpp.o
+#12 275.2 [ 58%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_hpmv.cpp.o
+#12 275.3 [ 58%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_hpmv_kernels.cpp.o
+#12 275.3 [ 59%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_hpmv_batched.cpp.o
+#12 275.4 [ 59%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_hpmv_strided_batched.cpp.o
+#12 275.4 [ 60%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_hpr.cpp.o
+#12 275.5 [ 60%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_hpr_kernels.cpp.o
+#12 275.5 [ 60%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_hpr_batched.cpp.o
+#12 275.5 [ 61%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_hpr_strided_batched.cpp.o
+#12 275.5 [ 61%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_hpr2.cpp.o
+#12 275.5 [ 62%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_hpr2_kernels.cpp.o
+#12 275.6 [ 62%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_hpr2_batched.cpp.o
+#12 275.6 [ 62%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_hpr2_strided_batched.cpp.o
+#12 275.7 [ 63%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_spr.cpp.o
+#12 275.7 [ 63%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_spr_kernels.cpp.o
+#12 275.7 [ 64%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_spr_batched.cpp.o
+#12 275.8 [ 64%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_spr_strided_batched.cpp.o
+#12 275.8 [ 64%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_spr2.cpp.o
+#12 275.8 [ 65%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_spr2_kernels.cpp.o
+#12 275.8 [ 65%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_spr2_batched.cpp.o
+#12 275.9 [ 66%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_syr.cpp.o
+#12 275.9 [ 66%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_spr2_strided_batched.cpp.o
+#12 275.9 [ 66%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_syr_kernels.cpp.o
+#12 276.0 [ 67%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_syr_batched.cpp.o
+#12 276.0 [ 67%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_syr_strided_batched.cpp.o
+#12 276.1 [ 67%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_syr2.cpp.o
+#12 276.1 [ 68%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_syr2_kernels.cpp.o
+#12 276.3 [ 68%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_syr2_batched.cpp.o
+#12 276.4 [ 69%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_syr2_strided_batched.cpp.o
+#12 276.5 [ 69%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_tbmv.cpp.o
+#12 276.5 [ 69%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_tbmv_kernels.cpp.o
+#12 276.6 [ 70%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_tbmv_batched.cpp.o
+#12 276.8 [ 70%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_tbmv_strided_batched.cpp.o
+#12 276.9 [ 71%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_tpsv.cpp.o
+#12 277.0 [ 71%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_tpsv_kernels.cpp.o
+#12 277.4 [ 71%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_tpsv_batched.cpp.o
+#12 279.0 [ 72%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_tpsv_strided_batched.cpp.o
+#12 279.2 [ 72%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_sbmv_kernels.cpp.o
+#12 279.2 [ 72%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_sbmv.cpp.o
+#12 279.4 [ 73%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_sbmv_batched.cpp.o
+#12 279.5 [ 73%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_sbmv_strided_batched.cpp.o
+#12 279.9 [ 74%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_spmv.cpp.o
+#12 280.3 [ 74%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_spmv_kernels.cpp.o
+#12 280.4 [ 74%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_spmv_batched.cpp.o
+#12 280.8  "/opt/rocm/llvm/bin/lld" -flavor gnu -m elf64_amdgpu --no-undefined -shared -plugin-opt=-amdgpu-internalize-symbols -plugin-opt=mcpu=gfx803 -plugin-opt=O3 --lto-CGO3 -plugin-opt=-amdgpu-early-inline-all=true -plugin-opt=-amdgpu-function-calls=false --whole-archive -o /tmp/rocblas_ger_kernels-gfx803-1fa67e.out /tmp/rocblas_ger_kernels-gfx803-6cb2c1.o --no-whole-archive
+#12 280.9  "/opt/rocm/llvm/bin/clang-offload-bundler" -type=o -bundle-align=4096 -targets=host-x86_64-unknown-linux,hipv4-amdgcn-amd-amdhsa--gfx803 -input=/dev/null -input=/tmp/rocblas_ger_kernels-gfx803-1fa67e.out -output=/tmp/rocblas_ger_kernels-2d6d7b.hipfb
+#12 280.9  "/opt/rocm-5.7.1/llvm/bin/clang-17" -cc1 -triple x86_64-unknown-linux-gnu -aux-triple amdgcn-amd-amdhsa -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name rocblas_ger_kernels.cpp -mrelocation-model pic -pic-level 2 -fhalf-no-semantic-interposition -mframe-pointer=none -fmath-errno -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu x86-64 -target-feature +f16c -tune-cpu generic -debugger-tuning=gdb -v -fcoverage-compilation-dir=/build/rocBLAS/build/release/library/src -resource-dir /opt/rocm-5.7.1/llvm/lib/clang/17.0.0 -dependency-file CMakeFiles/rocblas.dir/blas2/rocblas_ger_kernels.cpp.o.d -MT library/src/CMakeFiles/rocblas.dir/blas2/rocblas_ger_kernels.cpp.o -sys-header-deps -internal-isystem /opt/rocm-5.7.1/llvm/lib/clang/17.0.0/include/cuda_wrappers -idirafter /opt/rocm/include -include __clang_hip_runtime_wrapper.h -isystem /opt/rocm-5.7.1/include -D BUILD_WITH_TENSILE=1 -D ROCBLAS_BETA_FEATURES_API -D ROCBLAS_INTERNAL_API -D ROCBLAS_TENSILE_LAZY_LOAD=1 -D ROCBLAS_TENSILE_SEPARATE_ARCH=1 -D ROCM_USE_FLOAT16 -D TENSILE_DEFAULT_SERIALIZATION -D TENSILE_MSGPACK=1 -D TENSILE_USE_HIP -D __HIP_PLATFORM_AMD__=1 -D __HIP_PLATFORM_HCC__=1 -D rocblas_EXPORTS -I /build/rocBLAS/library/include -I /build/rocBLAS/library/include/internal -I /build/rocBLAS/library/src/include -I /build/rocBLAS/build/release/include/rocblas/internal -I /build/rocBLAS/build/release/include/rocblas -I /build/rocBLAS/build/release/include -I /build/rocBLAS/library/src/blas3/Tensile -I /build/rocBLAS/build/release/virtualenv/lib/python3.10/site-packages/Tensile/Source/lib/include -D __HIP_HCC_COMPAT_MODE__=1 -D NDEBUG -internal-isystem /usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11 -internal-isystem /usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/x86_64-linux-gnu/c++/11 -internal-isystem /usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/backward -internal-isystem /usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11 -internal-isystem /usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/x86_64-linux-gnu/c++/11 -internal-isystem /usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/backward -internal-isystem /opt/rocm-5.7.1/llvm/lib/clang/17.0.0/include -internal-isystem /usr/local/include -internal-isystem /usr/lib/gcc/x86_64-linux-gnu/11/../../../../x86_64-linux-gnu/include -internal-externc-isystem /usr/include/x86_64-linux-gnu -internal-externc-isystem /include -internal-externc-isystem /usr/include -internal-isystem /opt/rocm-5.7.1/llvm/lib/clang/17.0.0/include -internal-isystem /usr/local/include -internal-isystem /usr/lib/gcc/x86_64-linux-gnu/11/../../../../x86_64-linux-gnu/include -internal-externc-isystem /usr/include/x86_64-linux-gnu -internal-externc-isystem /include -internal-externc-isystem /usr/include -O3 -Wno-unused-result -Werror=vla -std=c++17 -fdeprecated-macro -fdebug-compilation-dir=/build/rocBLAS/build/release/library/src -ferror-limit 19 -fvisibility=hidden -fvisibility-inlines-hidden -fhip-new-launch-api -fgnuc-version=4.2.1 -fcxx-exceptions -fexceptions -vectorize-loops -vectorize-slp -mllvm -amdgpu-early-inline-all=true -mllvm -amdgpu-function-calls=false -fcuda-include-gpubinary /tmp/rocblas_ger_kernels-2d6d7b.hipfb -cuid=c6e0cfd95b15d6e6 -fcuda-allow-variadic-functions -faddrsig -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/rocblas.dir/blas2/rocblas_ger_kernels.cpp.o -x hip /build/rocBLAS/library/src/blas2/rocblas_ger_kernels.cpp
+#12 280.9 clang -cc1 version 17.0.0 based upon LLVM 17.0.0git default target x86_64-unknown-linux-gnu
+#12 280.9 ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/11/../../../../x86_64-linux-gnu/include"
+#12 280.9 ignoring nonexistent directory "/include"
+#12 280.9 ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/11/../../../../x86_64-linux-gnu/include"
+#12 280.9 ignoring nonexistent directory "/include"
+#12 280.9 ignoring duplicate directory "/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11"
+#12 280.9 ignoring duplicate directory "/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/x86_64-linux-gnu/c++/11"
+#12 280.9 ignoring duplicate directory "/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/backward"
+#12 280.9 ignoring duplicate directory "/opt/rocm-5.7.1/llvm/lib/clang/17.0.0/include"
+#12 280.9 ignoring duplicate directory "/usr/local/include"
+#12 280.9 ignoring duplicate directory "/usr/include/x86_64-linux-gnu"
+#12 280.9 ignoring duplicate directory "/usr/include"
+#12 280.9 ignoring duplicate directory "/opt/rocm/include"
+#12 280.9 #include "..." search starts here:
+#12 280.9 #include <...> search starts here:
+#12 280.9  /build/rocBLAS/library/include
+#12 280.9  /build/rocBLAS/library/include/internal
+#12 280.9  /build/rocBLAS/library/src/include
+#12 280.9  /build/rocBLAS/build/release/include/rocblas/internal
+#12 280.9  /build/rocBLAS/build/release/include/rocblas
+#12 280.9  /build/rocBLAS/build/release/include
+#12 280.9  /build/rocBLAS/library/src/blas3/Tensile
+#12 280.9  /build/rocBLAS/build/release/virtualenv/lib/python3.10/site-packages/Tensile/Source/lib/include
+#12 280.9  /opt/rocm/include
+#12 280.9  /opt/rocm-5.7.1/llvm/lib/clang/17.0.0/include/cuda_wrappers
+#12 280.9  /usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11
+#12 280.9  /usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/x86_64-linux-gnu/c++/11
+#12 280.9  /usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/backward
+#12 280.9  /opt/rocm-5.7.1/llvm/lib/clang/17.0.0/include
+#12 280.9  /usr/local/include
+#12 280.9  /usr/include/x86_64-linux-gnu
+#12 280.9  /usr/include
+#12 280.9 End of search list.
+#12 281.3 [ 75%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_spmv_strided_batched.cpp.o
+#12 281.3 [ 75%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_symv.cpp.o
+#12 282.2 [ 76%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_symv_batched.cpp.o
+#12 282.4 [ 76%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_symv_strided_batched.cpp.o
+#12 282.5 [ 76%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_trsv.cpp.o
+#12 282.8 [ 77%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_trsv_kernels.cpp.o
+#12 283.2 [ 77%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_trsv_strided_batched.cpp.o
+#12 283.4 [ 78%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas2/rocblas_trsv_batched.cpp.o
+#12 283.5 [ 78%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_iamax_iamin_kernels.cpp.o
+#12 283.5 [ 78%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_iamin.cpp.o
+#12 283.6 [ 79%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_iamin_batched.cpp.o
+#12 283.6 [ 79%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_iamin_strided_batched.cpp.o
+#12 283.6 [ 79%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_iamax.cpp.o
+#12 283.7 [ 80%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_iamax_batched.cpp.o
+#12 283.9 [ 80%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_iamax_strided_batched.cpp.o
+#12 284.3 [ 81%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_asum.cpp.o
+#12 284.8 [ 81%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_asum_batched.cpp.o
+#12 284.8 [ 81%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_asum_strided_batched.cpp.o
+#12 284.9 [ 82%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_axpy.cpp.o
+#12 284.9 [ 82%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_axpy_kernels.cpp.o
+#12 284.9 [ 83%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_axpy_batched.cpp.o
+#12 285.0 [ 83%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_axpy_strided_batched.cpp.o
+#12 285.1 [ 84%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_copy_kernels.cpp.o
+#12 285.1 [ 84%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_copy.cpp.o
+#12 285.2 [ 84%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_copy_batched.cpp.o
+#12 285.2 [ 85%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_copy_strided_batched.cpp.o
+#12 285.2 [ 85%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_dot.cpp.o
+#12 285.2 [ 85%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_dot_kernels.cpp.o
+#12 285.3 [ 86%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_dot_strided_batched.cpp.o
+#12 285.3 [ 86%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_dot_batched.cpp.o
+#12 285.3 [ 86%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_nrm2.cpp.o
+#12 285.3 [ 87%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_nrm2_batched.cpp.o
+#12 285.4 [ 87%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_nrm2_strided_batched.cpp.o
+#12 285.5 [ 88%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_reduction_kernels.cpp.o
+#12 285.5 [ 88%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_rot.cpp.o
+#12 285.5 [ 88%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_rot_kernels.cpp.o
+#12 285.7 [ 89%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_rot_batched.cpp.o
+#12 285.8 [ 89%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_rot_strided_batched.cpp.o
+#12 285.8 [ 90%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_rotg.cpp.o
+#12 285.8 [ 90%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_rotg_kernels.cpp.o
+#12 285.9 [ 90%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_rotg_batched.cpp.o
+#12 285.9 [ 91%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_rotg_strided_batched.cpp.o
+#12 285.9 [ 91%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_rotm.cpp.o
+#12 286.0 [ 92%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_rotm_kernels.cpp.o
+#12 286.0 [ 92%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_rotm_batched.cpp.o
+#12 286.0 [ 92%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_rotm_strided_batched.cpp.o
+#12 286.0 [ 93%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_rotmg.cpp.o
+#12 286.2 [ 93%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_rotmg_kernels.cpp.o
+#12 286.2 [ 93%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_rotmg_batched.cpp.o
+#12 286.2 [ 94%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_rotmg_strided_batched.cpp.o
+#12 286.3 [ 94%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_scal.cpp.o
+#12 286.4 [ 95%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_scal_kernels.cpp.o
+#12 286.5 [ 95%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_scal_batched.cpp.o
+#12 286.5 [ 95%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_scal_strided_batched.cpp.o
+#12 286.6 [ 96%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_swap.cpp.o
+#12 286.6 [ 96%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_swap_kernels.cpp.o
+#12 286.8 [ 97%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_swap_batched.cpp.o
+#12 286.8 [ 97%] Building CXX object library/src/CMakeFiles/rocblas.dir/blas1/rocblas_swap_strided_batched.cpp.o
+#12 286.9 [ 97%] Building CXX object library/src/CMakeFiles/rocblas.dir/handle.cpp.o
+#12 287.0 [ 98%] Building CXX object library/src/CMakeFiles/rocblas.dir/rocblas_auxiliary.cpp.o
+#12 287.1 [ 98%] Building CXX object library/src/CMakeFiles/rocblas.dir/buildinfo.cpp.o
+#12 287.2 [ 99%] Building CXX object library/src/CMakeFiles/rocblas.dir/rocblas_ostream.cpp.o
+#12 287.2 [ 99%] Building CXX object library/src/CMakeFiles/rocblas.dir/check_numerics_vector.cpp.o
+#12 287.3 [ 99%] Building CXX object library/src/CMakeFiles/rocblas.dir/check_numerics_matrix.cpp.o
+#12 534.8 [100%] Linking CXX shared library librocblas.so
+#12 535.1 [100%] Built target rocblas
+#12 535.1 Install the project...
+#12 535.1 -- Install configuration: "Release"
+#12 535.1 -- Installing: /build/rocBLAS/build/release/rocblas-install/include/rocblas/rocblas_module.f90
+#12 535.1 -- Up-to-date: /build/rocBLAS/build/release/rocblas-install/include
+#12 535.1 -- Installing: /build/rocBLAS/build/release/rocblas-install/include/internal
+#12 535.1 -- Installing: /build/rocBLAS/build/release/rocblas-install/include/internal/rocblas-functions.h
+#12 535.1 -- Installing: /build/rocBLAS/build/release/rocblas-install/include/internal/rocblas-auxiliary.h
+#12 535.1 -- Installing: /build/rocBLAS/build/release/rocblas-install/include/internal/rocblas-version.h
+#12 535.1 -- Installing: /build/rocBLAS/build/release/rocblas-install/include/internal/rocblas-beta.h
+#12 535.1 -- Installing: /build/rocBLAS/build/release/rocblas-install/include/internal/rocblas-complex-types.h
+#12 535.1 -- Installing: /build/rocBLAS/build/release/rocblas-install/include/internal/rocblas_bfloat16.h
+#12 535.1 -- Installing: /build/rocBLAS/build/release/rocblas-install/include/internal/rocblas_float8.h
+#12 535.1 -- Installing: /build/rocBLAS/build/release/rocblas-install/include/internal/rocblas-export.h
+#12 535.1 -- Installing: /build/rocBLAS/build/release/rocblas-install/include/internal/rocblas-exported-proto.hpp
+#12 535.1 -- Installing: /build/rocBLAS/build/release/rocblas-install/include/internal/rocblas_device_malloc.hpp
+#12 535.1 -- Installing: /build/rocBLAS/build/release/rocblas-install/include/internal/rocblas_block_sizes.h
+#12 535.1 -- Installing: /build/rocBLAS/build/release/rocblas-install/include/internal/rocblas_hip_f8_impl.h
+#12 535.1 -- Installing: /build/rocBLAS/build/release/rocblas-install/include/internal/rocblas-types.h
+#12 535.1 -- Installing: /build/rocBLAS/build/release/rocblas-install/include/internal/rocblas_xfloat32.h
+#12 535.1 -- Installing: /build/rocBLAS/build/release/rocblas-install/include/rocblas.h
+#12 535.1 -- Up-to-date: /build/rocBLAS/build/release/rocblas-install/include/rocblas
+#12 535.1 -- Installing: /build/rocBLAS/build/release/rocblas-install/include/rocblas/internal
+#12 535.1 -- Installing: /build/rocBLAS/build/release/rocblas-install/include/rocblas/internal/rocblas-functions.h
+#12 535.1 -- Installing: /build/rocBLAS/build/release/rocblas-install/include/rocblas/internal/rocblas-auxiliary.h
+#12 535.1 -- Installing: /build/rocBLAS/build/release/rocblas-install/include/rocblas/internal/rocblas-version.h
+#12 535.1 -- Installing: /build/rocBLAS/build/release/rocblas-install/include/rocblas/internal/rocblas-beta.h
+#12 535.1 -- Installing: /build/rocBLAS/build/release/rocblas-install/include/rocblas/internal/rocblas-complex-types.h
+#12 535.1 -- Installing: /build/rocBLAS/build/release/rocblas-install/include/rocblas/internal/rocblas_bfloat16.h
+#12 535.1 -- Installing: /build/rocBLAS/build/release/rocblas-install/include/rocblas/internal/rocblas_float8.h
+#12 535.1 -- Installing: /build/rocBLAS/build/release/rocblas-install/include/rocblas/internal/rocblas-export.h
+#12 535.1 -- Installing: /build/rocBLAS/build/release/rocblas-install/include/rocblas/internal/rocblas-exported-proto.hpp
+#12 535.1 -- Installing: /build/rocBLAS/build/release/rocblas-install/include/rocblas/internal/rocblas_device_malloc.hpp
+#12 535.1 -- Installing: /build/rocBLAS/build/release/rocblas-install/include/rocblas/internal/rocblas_block_sizes.h
+#12 535.1 -- Installing: /build/rocBLAS/build/release/rocblas-install/include/rocblas/internal/rocblas_hip_f8_impl.h
+#12 535.1 -- Installing: /build/rocBLAS/build/release/rocblas-install/include/rocblas/internal/rocblas-types.h
+#12 535.1 -- Installing: /build/rocBLAS/build/release/rocblas-install/include/rocblas/internal/rocblas_xfloat32.h
+#12 535.1 -- Installing: /build/rocBLAS/build/release/rocblas-install/include/rocblas/rocblas.h
+#12 535.1 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/librocblas.so.3.1.0
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/librocblas.so.3
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/librocblas.so
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_DD_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback.dat
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_HH_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_DD_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_BB_HPA_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_ZZ_Contraction_l_AlikC_Bjlk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_HH_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback.dat
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_HS_HPA_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_HS_HPA_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_DD_Contraction_l_Ailk_Bjlk_Cijk_Dijk_gfx803.co
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_I8I_HPA_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_CC_Contraction_l_AlikC_Bjlk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_I8I_HPA_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_CC_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback.dat
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_I8I_HPA_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback.dat
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_DD_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback.dat
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_HH_HPA_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_ZZ_Contraction_l_Ailk_BjlkC_Cijk_Dijk_fallback.dat
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_CC_Contraction_l_AlikC_Bljk_Cijk_Dijk_fallback.dat
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_BB_HPA_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_HH_HPA_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback.dat
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_4xi8I_HPA_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_BS_HPA_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback.dat
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_CC_Contraction_l_AlikC_BjlkC_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_DD_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback.dat
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_SS_Contraction_l_Ailk_Bjlk_Cijk_Dijk_gfx803.co
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_HS_HPA_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback.dat
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_BB_HPA_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback.dat
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_SS_Contraction_l_Alik_Bljk_Cijk_Dijk_gfx803.co
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_ZZ_Contraction_l_Alik_BjlkC_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_BB_HPA_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback.dat
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_HH_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback.dat
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_HH_HPA_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback.dat
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_DD_Contraction_l_Alik_Bjlk_Cijk_Dijk_gfx803.co
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_BB_HPA_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback.dat
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_BS_HPA_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_ZZ_Contraction_l_AlikC_Bjlk_Cijk_Dijk_fallback.dat
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_HS_HPA_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback.dat
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_4xi8I_HPA_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback.dat
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_I8I_HPA_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_HS_HPA_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback.dat
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_CC_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback.dat
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_4xi8I_HPA_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_HS_HPA_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback.dat
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_BS_HPA_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback.dat
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_DD_Contraction_l_Ailk_Bljk_Cijk_Dijk_gfx803.dat
+#12 535.2 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/Kernels.so-000-gfx803.hsaco
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_SS_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_HH_HPA_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback.dat
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_CC_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_HH_HPA_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_4xi8I_HPA_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback.dat
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_I8I_HPA_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback.dat
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_ZZ_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_ZZ_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_SS_Contraction_l_Ailk_Bljk_Cijk_Dijk_gfx803.co
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_DD_Contraction_l_Alik_Bljk_Cijk_Dijk_gfx803.co
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_SS_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback.dat
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_DD_Contraction_l_Alik_Bjlk_Cijk_Dijk_gfx803.dat
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_ZZ_Contraction_l_Ailk_BjlkC_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_4xi8I_HPA_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback.dat
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_SS_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_DD_Contraction_l_Alik_Bljk_Cijk_Dijk_gfx803.dat
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_CC_Contraction_l_AlikC_Bljk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_ZZ_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback.dat
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_BS_HPA_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_SS_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_DD_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_BS_HPA_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_4xi8I_HPA_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback.dat
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_ZZ_Contraction_l_Alik_BjlkC_Cijk_Dijk_fallback.dat
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_SS_Contraction_l_Alik_Bjlk_Cijk_Dijk_gfx803.dat
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_SS_Contraction_l_Ailk_Bljk_Cijk_Dijk_gfx803.dat
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_ZZ_Contraction_l_AlikC_BjlkC_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_CC_Contraction_l_Alik_BjlkC_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_ZZ_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback.dat
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_CC_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_HS_HPA_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileManifest.txt
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_BS_HPA_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_CC_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback.dat
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_CC_Contraction_l_AlikC_BjlkC_Cijk_Dijk_fallback.dat
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_HH_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback.dat
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_CC_Contraction_l_Ailk_BjlkC_Cijk_Dijk_fallback.dat
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_SS_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback.dat
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_ZZ_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback.dat
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_BS_HPA_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback.dat
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_BB_HPA_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_SS_Contraction_l_Alik_Bjlk_Cijk_Dijk_gfx803.co
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_BB_HPA_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_I8I_HPA_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback.dat
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_SS_Contraction_l_Ailk_Bjlk_Cijk_Dijk_gfx803.dat
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_ZZ_Contraction_l_AlikC_BjlkC_Cijk_Dijk_fallback.dat
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_ZZ_Contraction_l_AlikC_Bljk_Cijk_Dijk_fallback.dat
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_BS_HPA_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback.dat
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_HH_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback.dat
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_CC_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback.dat
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_ZZ_Contraction_l_AlikC_Bljk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_ZZ_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_HS_HPA_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_CC_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_ZZ_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback.dat
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_DD_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_CC_Contraction_l_Ailk_BjlkC_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_DD_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback.dat
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_HH_HPA_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback.dat
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_HH_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_SS_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_ZZ_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_SS_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback.dat
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_SS_Contraction_l_Alik_Bljk_Cijk_Dijk_gfx803.dat
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_I8I_HPA_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback.dat
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_4xi8I_HPA_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_DD_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_CC_Contraction_l_AlikC_Bjlk_Cijk_Dijk_fallback.dat
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_I8I_HPA_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_DD_Contraction_l_Ailk_Bljk_Cijk_Dijk_gfx803.co
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_HH_HPA_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_4xi8I_HPA_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_CC_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_BB_HPA_Contraction_l_Ailk_Bjlk_Cijk_Dijk_fallback.dat
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_DD_Contraction_l_Ailk_Bjlk_Cijk_Dijk_gfx803.dat
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_HH_Contraction_l_Alik_Bjlk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_lazy_gfx803.dat
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_HH_HPA_Contraction_l_Alik_Bljk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_SS_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback.dat
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_CC_Contraction_l_Alik_BjlkC_Cijk_Dijk_fallback.dat
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/rocblas/library/TensileLibrary_Type_HH_Contraction_l_Ailk_Bljk_Cijk_Dijk_fallback_gfx803.hsaco
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/cmake/rocblas/rocblas-targets.cmake
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/cmake/rocblas/rocblas-targets-release.cmake
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/cmake/rocblas/rocblas-config.cmake
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/lib/cmake/rocblas/rocblas-config-version.cmake
+#12 535.3 -- Up-to-date: /build/rocBLAS/build/release/rocblas-install/./rocblas
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/./rocblas/include
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/./rocblas/include/internal
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/./rocblas/include/internal/rocblas-functions.h
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/./rocblas/include/internal/rocblas-auxiliary.h
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/./rocblas/include/internal/rocblas-version.h
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/./rocblas/include/internal/rocblas-beta.h
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/./rocblas/include/internal/rocblas-complex-types.h
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/./rocblas/include/internal/rocblas_bfloat16.h
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/./rocblas/include/internal/rocblas_float8.h
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/./rocblas/include/internal/rocblas-export.h
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/./rocblas/include/internal/rocblas-exported-proto.hpp
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/./rocblas/include/internal/rocblas_device_malloc.hpp
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/./rocblas/include/internal/rocblas_block_sizes.h
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/./rocblas/include/internal/rocblas_hip_f8_impl.h
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/./rocblas/include/internal/rocblas-types.h
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/./rocblas/include/internal/rocblas_xfloat32.h
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/./rocblas/include/rocblas.h
+#12 535.3 -- Created symlink in /build/rocBLAS/build/release/rocblas-install/rocblas/include to /build/rocBLAS/build/release/rocblas-install/include/rocblas/rocblas_module.f90.
+#12 535.3 -- Created symlink in /build/rocBLAS/build/release/rocblas-install/include to /build/rocBLAS/build/release/rocblas-install/include/rocblas/rocblas_module.f90.
+#12 535.3 -- Installing: /build/rocBLAS/build/release/rocblas-install/share/doc/rocblas/LICENSE.md
+#12 535.3 {'PRETTY_NAME': 'Ubuntu 22.04.3 LTS', 'NAME': 'Ubuntu', 'VERSION_ID': '22.04', 'VERSION': '22.04.3 LTS (Jammy Jellyfish)', 'VERSION_CODENAME': 'jammy', 'ID': 'ubuntu', 'ID_LIKE': 'debian', 'HOME_URL': 'https://www.ubuntu.com/', 'SUPPORT_URL': 'https://help.ubuntu.com/', 'BUG_REPORT_URL': 'https://bugs.launchpad.net/ubuntu/', 'PRIVACY_POLICY_URL': 'https://www.ubuntu.com/legal/terms-and-policies/privacy-policy', 'UBUNTU_CODENAME': 'jammy', 'NUM_PROC': 88, 'RAM_GB': 0}
+#12 535.3 Build source path: /build/rocBLAS
+#12 535.3 cmake -DCMAKE_TOOLCHAIN_FILE=toolchain-linux.cmake -DROCM_DIR:PATH=/opt/rocm -DCPACK_PACKAGING_INSTALL_PREFIX=/opt/rocm -DCMAKE_INSTALL_PREFIX="rocblas-install" -DROCM_PATH=/opt/rocm -DCMAKE_PREFIX_PATH:PATH=/opt/rocm -DCPACK_SET_DESTDIR=OFF -DCMAKE_BUILD_TYPE=Release -DAMDGPU_TARGETS="gfx803" -DTensile_CODE_OBJECT_VERSION=default -DTensile_LOGIC=asm_full -DTensile_SEPARATE_ARCHITECTURES=ON -DTensile_LAZY_LIBRARY_LOADING=ON -DTensile_LIBRARY_FORMAT=msgpack -DBUILD_FILE_REORG_BACKWARD_COMPATIBILITY=ON /build/rocBLAS
+#12 535.3 make -j88 install
+#12 535.3 + check_exit_code 0
+#12 535.3 + ((  0 != 0  ))
+#12 535.3 + popd
+#12 535.3 /build/rocBLAS
+#12 535.4 + pushd .
+#12 535.4 /build/rocBLAS /build/rocBLAS
+#12 535.4 + cd /build/rocBLAS/build/release
+#12 535.4 + [[ true == true ]]
+#12 535.4 + make package
+#12 535.4 [  0%] TENSILE_LIBRARY_TARGET: Copying tensile objects to /build/rocBLAS/build/release/Tensile/library
+#12 536.7 [  0%] Built target TENSILE_LIBRARY_TARGET
+#12 536.7 Consolidate compiler generated dependencies of target TensileHost
+#12 536.7 [  8%] Built target TensileHost
+#12 536.8 [  8%] Built target rocblas_device_malloc
+#12 536.8 [  9%] Built target rocblas_proto_templates
+#12 537.2 Consolidate compiler generated dependencies of target rocblas
+#12 537.3 [100%] Built target rocblas
+#12 537.4 Run CPack packaging tool...
+#12 537.4 CPack: Create package using TGZ
+#12 537.4 CPack: Install projects
+#12 537.4 CPack: - Run preinstall target for: rocblas
+#12 539.1 CPack: - Install project: rocblas []
+#12 539.1 CPack: -   Install component: runtime
+#12 539.2 CPack: -   Install component: devel
+#12 539.3 CPack: Create package
+#12 541.7 CPack: - package: /build/rocBLAS/build/release/rocblas-3.1.0-Linux-devel.tar.gz generated.
+#12 541.7 CPack: - package: /build/rocBLAS/build/release/rocblas-3.1.0-Linux-runtime.tar.gz generated.
+#12 541.7 CPack: Create package using ZIP
+#12 541.7 CPack: Install projects
+#12 541.7 CPack: - Run preinstall target for: rocblas
+#12 543.4 CPack: - Install project: rocblas []
+#12 543.4 CPack: -   Install component: runtime
+#12 543.5 CPack: -   Install component: devel
+#12 543.6 CPack: Create package
+#12 546.0 CPack: - package: /build/rocBLAS/build/release/rocblas-3.1.0-Linux-devel.zip generated.
+#12 546.0 CPack: - package: /build/rocBLAS/build/release/rocblas-3.1.0-Linux-runtime.zip generated.
+#12 546.0 CPack: Create package using DEB
+#12 546.0 CPack: Install projects
+#12 546.0 CPack: - Run preinstall target for: rocblas
+#12 547.7 CPack: - Install project: rocblas []
+#12 547.7 CPack: -   Install component: runtime
+#12 547.8 CPack: -   Install component: devel
+#12 547.9 CPack: Create package
+#12 556.6 CPack: - package: /build/rocBLAS/build/release/rocblas-dev_3.1.0-b80e422_amd64.deb generated.
+#12 556.6 CPack: - package: /build/rocBLAS/build/release/rocblas_3.1.0-b80e422_amd64.deb generated.
+#12 556.6 + check_exit_code 0
+#12 556.6 + ((  0 != 0  ))
+#12 556.6 + case "${ID}" in
+#12 556.6 + elevate_if_not_root dpkg -i rocblas-dev_3.1.0-b80e422_amd64.deb rocblas_3.1.0-b80e422_amd64.deb
+#12 556.6 ++ id -u
+#12 556.6 + local uid=0
+#12 556.6 + ((  0  ))
+#12 556.6 + dpkg -i rocblas-dev_3.1.0-b80e422_amd64.deb rocblas_3.1.0-b80e422_amd64.deb
+#12 556.6 Selecting previously unselected package rocblas-dev.
+#12 556.7 (Reading database ... 44805 files and directories currently installed.)
+#12 556.7 Preparing to unpack rocblas-dev_3.1.0-b80e422_amd64.deb ...
+#12 556.7 Unpacking rocblas-dev (3.1.0-b80e422) ...
+#12 556.7 Selecting previously unselected package rocblas.
+#12 556.7 Preparing to unpack rocblas_3.1.0-b80e422_amd64.deb ...
+#12 556.7 Unpacking rocblas (3.1.0-b80e422) ...
+#12 557.4 Setting up rocblas (3.1.0-b80e422) ...
+#12 557.4 Setting up rocblas-dev (3.1.0-b80e422) ...
+#12 557.5 Processing triggers for libc-bin (2.35-0ubuntu3.4) ...
+#12 557.5 + check_exit_code 0
+#12 557.5 + ((  0 != 0  ))
+#12 557.5 + check_exit_code 0
+#12 557.5 + ((  0 != 0  ))
+#12 557.5 + [[ false == true ]]
+#12 557.5 + check_exit_code 0
+#12 557.5 + ((  0 != 0  ))
+#12 557.5 + popd
+#12 557.5 /build/rocBLAS
+#12 DONE 558.5s
+
+#13 [rocblas 4/4] RUN mkdir -p /artifacts && ( cp -v rocBLAS/build/release/*.deb /artifacts/ 2>/dev/null ||     find rocBLAS/build -name '*.deb' -exec cp -v {} /artifacts/ ; )
+#13 0.443 'rocBLAS/build/release/rocblas-dev_3.1.0-b80e422_amd64.deb' -> '/artifacts/rocblas-dev_3.1.0-b80e422_amd64.deb'
+#13 0.443 'rocBLAS/build/release/rocblas_3.1.0-b80e422_amd64.deb' -> '/artifacts/rocblas_3.1.0-b80e422_amd64.deb'
+#13 DONE 0.5s
+
+#14 exporting to image
+#14 exporting layers
+#14 exporting layers 38.7s done
+#14 exporting manifest sha256:ead2e929b186f2da44af4698ac92ab6732faf7caba1e622f247f1ca55fc77e80 0.0s done
+#14 exporting config sha256:8dd0a8747327dc7fc81ea33f27d130285c24e6065459235b04e05ecee36f001d done
+#14 exporting attestation manifest sha256:81ba6f483cf8197dee7c523e386ac6cf050f6d5a36f7a7dd10e6cec31673d735 0.0s done
+#14 exporting manifest list sha256:e0ddb814c799fb5f0e73c5cc7b574a1b09f6f7c0cb7c7780a919bd10f027acea 0.0s done
+#14 naming to docker.io/library/revive-pytorch-gfx803:rocblas done
+#14 unpacking to docker.io/library/revive-pytorch-gfx803:rocblas
+#14 unpacking to docker.io/library/revive-pytorch-gfx803:rocblas 14.4s done
+#14 DONE 53.1s

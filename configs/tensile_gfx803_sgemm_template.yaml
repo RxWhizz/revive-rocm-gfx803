@@ -1,0 +1,81 @@
+# Tensile benchmark template for gfx803/Polaris FP32 GEMM.
+#
+# Use scripts/capture_gemm_shapes.sh first, then copy the important (m,n,k)
+# rows into BenchmarkFinalParameters.  This template is intentionally small:
+# it is a starting point for tuning MACE/ALIGNN shapes, not a full replacement
+# for rocBLAS' full Tensile logic.
+#
+# Run inside the rocBLAS build environment:
+#   /build/rocBLAS/build/release/virtualenv/bin/Tensile \
+#     configs/tensile_gfx803_sgemm_template.yaml /tmp/tensile_gfx803_out
+
+GlobalParameters:
+  MinimumRequiredVersion: 4.38.0
+  RuntimeLanguage: HIP
+  KernelLanguage: Assembly
+  Architecture: gfx803
+  CxxCompiler: hipcc
+  PrintLevel: 1
+  ForceRedoBenchmarkProblems: false
+  ForceRedoLibraryLogic: true
+  ForceRedoLibraryClient: true
+  EnqueuesPerSync: 1
+  SyncsPerBenchmark: 1
+  LibraryPrintDebug: false
+
+BenchmarkProblems:
+  - # C[M,N] = A[M,K] * B[K,N], row/column layout is controlled by trans flags.
+    - OperationType: GEMM
+      DataType: s
+      DestDataType: s
+      ComputeDataType: s
+      TransposeA: false
+      TransposeB: false
+      UseBeta: true
+      Batched: false
+
+    - InitialSolutionParameters:
+      - WorkGroupMapping: [1, 8]
+      - LoopTail: true
+      - EdgeType: [ShiftPtr]
+
+    - ForkParameters:
+      - ThreadTile:
+        - [4, 4]
+        - [4, 8]
+        - [8, 4]
+      - WorkGroup:
+        - [16, 16, 1]
+        - [16, 8, 1]
+        - [8, 16, 1]
+      - DepthU: [8, 16, 32]
+      - VectorWidth: [1, 2, 4]
+      - GlobalReadVectorWidth: [1, 2, 4]
+      - LocalReadVectorWidth: [1, 2, 4]
+      - PrefetchGlobalRead: [true]
+      - PrefetchLocalRead: [true]
+      - GlobalSplitU: [1]
+      - AssertFree0ElementMultiple: [1, 4]
+      - AssertFree1ElementMultiple: [1, 4]
+      - AssertSummationElementMultiple: [1, 4]
+
+    - JoinParameters:
+      - MacroTile0
+      - MacroTile1
+
+    - BenchmarkFinalParameters:
+      - ProblemSizes:
+        # Replace/add rows from results/gemm_shapes_gpu*.csv.
+        # Tensile order for GEMM is commonly [M, N, batch, K] for these configs.
+        - Exact: [512, 512, 1, 512]
+        - Exact: [1024, 1024, 1, 1024]
+        - Exact: [2048, 2048, 1, 2048]
+        - Exact: [4096, 4096, 1, 4096]
+
+LibraryLogic:
+  ScheduleName: gfx803_mace_sgemm
+  ArchitectureName: gfx803
+  DeviceNames: [gfx803]
+
+LibraryClient:
+  BuildClient: true
