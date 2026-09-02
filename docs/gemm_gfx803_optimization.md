@@ -1,16 +1,34 @@
-# GEMM FP32 en RX 570 gfx803
+# FP32 GEMM On RX 570 / gfx803
 
-## Diagnostico actual
+This note explains how to check whether the revived ROCm stack is using the
+GPU correctly and how to collect the data needed for future GEMM tuning.
 
-- El stack ya ve 2 GPUs y `HIP_VISIBLE_DEVICES=0/1` aisla un proceso por tarjeta.
-- El rendimiento observado de `torch.matmul`/rocBLAS es ~1.25 TFLOPS por RX 570 en `4096x4096x4096`.
-- Pico teorico por tarjeta: `32 CU * 64 lanes * 2 FMA * 1.244 GHz = 5.09 TFLOPS`.
-- 1.25 TFLOPS es ~24.5% del pico. Para GEMM grande esto apunta a kernel/logic suboptimo mas que a ancho de banda puro.
-- El build de rocBLAS genero objetos gfx803, pero el log muestra seleccion desde logic vieja tipo `asm_full/r9nano` y `hip` mas fallback. Eso es compatible, no necesariamente size-tuned para Polaris RX570.
+## Current Baseline
 
-## Comprobar si usa ambas GPUs
+On the validated RX 570 host:
 
-Un solo proceso PyTorch no suma automaticamente las dos RX 570. Este proyecto usa un proceso por GPU:
+- PyTorch sees two gfx803 GPUs.
+- `HIP_VISIBLE_DEVICES=0` and `HIP_VISIBLE_DEVICES=1` isolate one process per
+  card.
+- `torch.matmul` through rocBLAS reaches about 1.25 TFLOPS per RX 570 on
+  `4096x4096x4096` FP32 GEMM.
+- The result matches a CPU sample and produces finite values.
+
+That is enough to prove the stack is usable, but it is not close to theoretical
+peak. A rough RX 570 FP32 peak estimate is:
+
+```text
+32 CU * 64 lanes * 2 FMA * 1.244 GHz = about 5.09 TFLOPS
+```
+
+So 1.25 TFLOPS is about 25 percent of peak. For large GEMMs this suggests that
+kernel selection, Tensile logic, clocks, or occupancy may matter more than raw
+memory bandwidth alone.
+
+## Check Both GPUs
+
+A single PyTorch process does not combine two RX 570 cards. This project uses
+one process per GPU:
 
 ```bash
 make detect
@@ -20,96 +38,99 @@ make test-dual
 make matmul-ab
 ```
 
-`make matmul-ab` lanza dos procesos simultaneos, uno con `HIP_VISIBLE_DEVICES=0` y otro con `HIP_VISIBLE_DEVICES=1`, y escribe:
+`make matmul-ab` launches two simultaneous processes and writes:
 
 - `results/matmul_ab_gpu0.json`
 - `results/matmul_ab_gpu1.json`
 - `results/matmul_ab_summary.txt`
 
-Si ambos JSON existen y el resumen muestra dos GPUs, el benchmark dual realmente esta usando ambas tarjetas.
+If both JSON files exist and the summary names both GPUs, the benchmark used
+both cards through separate processes.
 
-## Saber si limita memoria, ocupacion, bloque o sincronizacion
+## Benchmark Layers
 
-Usa las dos capas de benchmark:
+Use two layers:
 
 ```bash
 make matmul-ab
 make sgemm-ab
 ```
 
-Interpretacion rapida:
+Interpretation:
 
-- Si `torch_rocblas` supera claramente a `lds`, el cuello esta en seleccion/tuning de rocBLAS para tus formas, no en la capacidad basica de la GPU.
-- Si `lds` mejora mucho contra `conservative`, el kernel naive estaba limitado por memoria global y reutilizacion pobre.
-- Si `vec4` mejora solo cuando `N` es multiplo de 4, hay beneficio de coalescing/vector loads; si no mejora, el limite esta en ocupacion, registros o reutilizacion de `B`.
-- Si todos se quedan bajos en matrices grandes, revisar clocks/temperatura/power limit con `rocm-smi`, y validar que no haya throttle.
+- If PyTorch/rocBLAS clearly beats the standalone kernels, rocBLAS is working
+  and the remaining question is tuning for your shapes.
+- If the LDS kernel beats the conservative kernel, memory reuse is helping.
+- If the `vec4` kernel only helps when dimensions are multiples of four, vector
+  loads are useful only for aligned shapes.
+- If everything is slow on large matrices, inspect clocks, temperature, power
+  limit, and PCIe link with `rocm-smi` and `lspci`.
 
-## Variantes incluidas
+## Standalone Kernels
 
-Archivo: `benchmarks/sgemm_gfx803_hip.cpp`.
+File:
 
-1. `conservative`
-   - Un thread calcula un elemento de `C`.
-   - Bloque `16x16`.
-   - Sirve como baseline de correctitud y muestra el coste de leer `A/B` desde memoria global sin reutilizacion.
+```text
+benchmarks/sgemm_gfx803_hip.cpp
+```
 
-2. `lds`
-   - Tile `16x16` en LDS/shared memory.
-   - Reutiliza tiles de `A` y `B` dentro del workgroup.
-   - Debe mejorar sobre `conservative` en matrices medianas/grandes si el problema era trafico de memoria global.
+Variants:
 
-3. `vec4`
-   - Un thread calcula cuatro columnas contiguas usando `float4` para `B`.
-   - Ayuda cuando `N` esta alineado a 4 y la matriz esta en layout contiguo.
-   - Es util para medir si las cargas vectorizadas/coalescidas ayudan en las formas reales.
+| Variant | Purpose |
+|---|---|
+| `conservative` | One thread computes one `C` element; correctness baseline |
+| `lds` | Uses 16x16 LDS/shared-memory tiles |
+| `vec4` | Computes four contiguous columns with `float4` loads |
 
-Compilacion manual dentro del contenedor:
+Manual run inside the container:
 
 ```bash
 bash scripts/build_sgemm_kernels.sh
 /workspace/results/sgemm_gfx803_hip --shape 4096 --repeats 20 --warmup 5 --csv /workspace/results/sgemm_ab.csv
 ```
 
-## Capturar formas GEMM reales de MACE/ALIGNN
+## Capture Real GEMM Shapes
 
-Tuning sin formas reales desperdicia horas. Captura primero:
+Do not tune only for square 4096 GEMMs if your real workload uses narrow or
+batched shapes. Capture the actual rocBLAS calls first:
 
 ```bash
 make gemm-shapes
 ```
 
-Por defecto corre:
+Default workload:
 
 ```bash
 ROCBLAS_LAYER=2 python mace/test_mace_inference.py
 ```
 
-Salidas:
+Outputs:
 
-- `results/gemm_shapes_gpu0.log`: log bruto rocBLAS.
-- `results/gemm_shapes_gpu0.csv`: distribucion `(m,n,k,transA,transB,batch_count)`.
-- `results/gemm_shapes_gpu0_summary.txt`: top formas por frecuencia.
+- `results/gemm_shapes_gpu0.log`
+- `results/gemm_shapes_gpu0.csv`
+- `results/gemm_shapes_gpu0_summary.txt`
 
-Para otro workload:
+For another workload:
 
 ```bash
 GPU=0 bash scripts/capture_gemm_shapes.sh "python mace/test_mace_training.py"
 ```
 
-## Tuning Tensile
+## Future Tensile Tuning
 
-Plantilla inicial:
+Template:
 
-```bash
+```text
 configs/tensile_gfx803_sgemm_template.yaml
 ```
 
-Flujo recomendado:
+Recommended flow:
 
-1. Capturar formas reales con `make gemm-shapes`.
-2. Copiar las formas dominantes desde `results/gemm_shapes_gpu*.csv` a `BenchmarkFinalParameters`.
-3. Ejecutar `Tensile` en hardware gfx803 dentro del entorno de build de rocBLAS.
-4. Instalar la logic resultante en el arbol de rocBLAS o construir una libreria aparte.
-5. Reconstruir rocBLAS/PyTorch runtime y repetir `make matmul-ab`.
+1. Capture real shapes with `make gemm-shapes`.
+2. Copy dominant shapes into `BenchmarkFinalParameters`.
+3. Run Tensile on real gfx803 hardware.
+4. Install the generated logic into rocBLAS or build a separate library.
+5. Rebuild the runtime and rerun `make matmul-ab`.
 
-La meta no es optimizar `4096^3` si MACE/ALIGNN usa GEMMs flacos. La meta es maximizar el area bajo la distribucion real de formas.
+The goal is not to optimize a synthetic square GEMM if MACE or ALIGNN uses a
+different distribution. Optimize the shapes your workload actually calls.

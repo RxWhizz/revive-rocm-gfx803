@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  static-checks:
+    name: Static checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Shell syntax
+        run: bash -n scripts/*.sh docker/*.sh
+
+      - name: Python syntax
+        run: python3 -m compileall -q tests mace scripts
+
+      - name: Required public files
+        run: |
+          test -f README.md
+          test -f LICENSE
+          test -f docs/compatibility.md
+          test -f docs/troubleshooting.md
+          test -f docs/build-time-and-disk.md
+
+      - name: Dockerfile stages are present
+        run: |
+          grep -q "FROM rocm/dev-ubuntu-22.04:5.7.1 AS base" docker/Dockerfile
+          grep -q "FROM base AS rocblas" docker/Dockerfile
+          grep -q "FROM rocblas AS pytorch" docker/Dockerfile
+          grep -q "FROM pytorch AS runtime" docker/Dockerfile

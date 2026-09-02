@@ -1,0 +1,52 @@
+name: GPU compatibility report
+description: Report a working or failing Polaris / gfx803 setup
+title: "[GPU report]: "
+labels: ["gpu-report", "compatibility"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for testing old AMD hardware. Please paste text logs instead of screenshots.
+  - type: input
+    id: gpu
+    attributes:
+      label: GPU model and VRAM
+      placeholder: "RX 580 8GB"
+    validations:
+      required: true
+  - type: input
+    id: device_id
+    attributes:
+      label: PCI device id
+      placeholder: "1002:67df"
+    validations:
+      required: true
+  - type: input
+    id: host
+    attributes:
+      label: Linux distribution and kernel
+      placeholder: "Ubuntu 24.04, kernel 6.17"
+    validations:
+      required: true
+  - type: textarea
+    id: audit
+    attributes:
+      label: make audit output
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: detect
+    attributes:
+      label: make detect output
+      render: text
+    validations:
+      required: false
+  - type: textarea
+    id: failure
+    attributes:
+      label: Failure details or validation result
+      description: Include the exact command and last 80 log lines when something fails.
+      render: text
+    validations:
+      required: false

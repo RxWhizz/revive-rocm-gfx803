@@ -1,0 +1,33 @@
+# Local build products
+dist/
+build/
+tmp/
+
+# Docker/build logs and generated reports
+logs/
+!logs/.gitkeep
+results/*.jsonl
+results/*.csv
+results/*.txt
+results/*.log
+results/*traceback*
+results/mace_train/
+
+# Training/stress checkpoints
+checkpoints/
+
+# Editor and OS noise
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Local environment files
+.env
+*.local
